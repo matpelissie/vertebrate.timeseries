@@ -20,4 +20,5 @@ Imports:
     rgeos,
     sp,
     tidyr,
-    viridis
+    viridis,
+    ggplot2
