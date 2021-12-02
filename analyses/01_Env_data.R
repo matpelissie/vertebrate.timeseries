@@ -11,15 +11,9 @@ library(rgeos)
 library(viridis)
 library(maps)
 
-
-setwd("C:/Users/Mathieu/Documents/Mathieu/ENS/04_4A-PLR/Uppsala")
-
-sweden.spdf <- readRDS("Data/z_Map/gadm36_SWE_0_sp.rds")
-france.spdf <- readRDS("Data/z_Map/gadm36_FRA_0_sp.rds")
-
 # Bulk download
-f <- read.table("Data/CHELSA/envidatS3paths_temp_2061.2080.txt") ; f <- as.character(f$V1)
-destfile <- "C:/Users/Mathieu/Documents/Mathieu/ENS/04_4A-PLR/Uppsala/Data/CHELSA/global/"
+f <- read.table("data/CHELSA/envidatS3paths.txt") ; f <- as.character(f$V1)
+destfile <- "data/CHELSA/global/"
 for(i in 1:length(f)){
   download.file(f[i],destfile=paste0(destfile,strsplit(as.character(f[i]), "/")[[1]][10]), mode="wb")
 }
@@ -27,29 +21,29 @@ for(i in 1:length(f)){
 # Import global data maps and crop/mask on sweden
 
 for(country in c("sweden","france")){
-  
+
   inputDir <- "./Data/CHELSA/global"
   outputDir <- paste0("./Data/CHELSA/",country)
-  
+
   # dir <- list.files(outputDir, full.names = TRUE)
   # lapply(dir, function(x){dir.create(paste0(x,"/bioclim"), showWarnings = F)})
-  
+
   files <- list.files(inputDir, pattern = '.tif$', full.names = TRUE)
   tifOptions <- c("COMPRESS=DEFLATE", "PREDICTOR=2", "ZLEVEL=6")
-  
+
   # Crop and mask maps for Sweden
   for (i in 1:length(files)) {
     cat(i, ' ')
     r <- stack(files[i])
     r <- crop(r, get(paste0(country,".spdf")))
-    
+
     # apply terrestrial mask
     # r <- mask(r, sweden.spdf)
-    
+
     # if (grepl('temp|tmax|tmin', files[i])) {
     #   r <- r / 10 # for CHELSA timeseries
     # }
-    
+
     if (grepl('tas', files[i])) {
       r <- r / 10 # for CHELSA [CMIP5]
       # r <- r - 273.15 # for CHELSA [CMIP5] timeseries
@@ -57,7 +51,7 @@ for(country in c("sweden","france")){
     if (grepl('pr', files[i])) {
       r[r[]<0] <- NA
     }
-    
+
     out <- gsub('-', '.',paste0(strsplit(strsplit(files[i], "global")[[1]][2],".tif")[[1]][1], ".",country,".tif"))
     fold <- paste(strsplit(strsplit(out,"_")[[1]][9],paste0(".",country))[[1]][1],
                   strsplit(out,"_")[[1]][4], strsplit(out,"_")[[1]][5],  sep="_")
@@ -66,7 +60,7 @@ for(country in c("sweden","france")){
     writeRaster(r, filename = outfile, format = 'GTiff', options = tifOptions, overwrite = TRUE)
     print(paste0(i,"/",length(files)))
   }
-  
+
 }
 
 
@@ -98,7 +92,7 @@ dir.create(outdir)
 
 
 ## GENERATE ENVIREM variables
-generateRasters(var = 'all', 
+generateRasters(var = 'all',
                 maindir = dir,
                 outputDir = outdir)
 
@@ -150,18 +144,18 @@ for (i in 1:length(files)) {
   cat(i, ' ')
   r <- stack(files[i])
   r <- crop(r, mask)
-  
+
   # apply terrestrial mask
   r <- mask(r, mask)
-  
+
   if (grepl('temp|tmax|tmin', files[i])) {
     r <- r / 10 # for CHELSA timeseries
   }
-  
+
   if (grepl('pr', files[i])) {
     r[r[]<0] <- NA
   }
-  
+
   outfile <- paste0(outputDir, strsplit(strsplit(files[i], "global")[[1]][2],".tif")[[1]][1], '.europe.tif')
   outfile <- gsub('_(\\d)_', '_0\\1_', outfile)
   outfile <- gsub('-', '.', outfile)
@@ -207,7 +201,7 @@ dir.create(outdir)
 
 
 ## GENERATE ENVIREM variables
-generateRasters(var = 'all', 
+generateRasters(var = 'all',
                 maindir = dir,
                 outputDir = outdir)
 
@@ -305,19 +299,19 @@ for (i in 1:length(f)){
 ptm <- Sys.time()
 fold <- list.files('./Data/CHELSA/sweden/')
 for (m in 1:length(fold)){
-  
+
   # year <- as.numeric(strsplit(fold[m],"_")[[1]][1]):as.numeric(strsplit(fold[m],"_")[[1]][2])
   p <- paste0("./Data/CHELSA/sweden/", fold[m])
   files <- list.files(p,
                       # pattern = '.tif$',
                       full.names = TRUE)
-  
+
   for (i in 1:length(year)){
-    
+
     # path <- paste0(p,"/",year[i])
     # dir.create(path)
     # c <- 0
-    # 
+    #
     # for (k in c("pr","tasmax","tasmin")){
     #   c <- c+1
     #   K <- k
@@ -335,7 +329,7 @@ for (m in 1:length(fold)){
     #       }
     #       temp[[j]] <- temp[[j]]*3600*24*days
     #     }
-    #     
+    #
     #     type <- grep(pattern = "historical|rcp",strsplit(names(temp)[1],"_")[[1]], value=TRUE)
     #     outfile <- paste0(path,"/CHELSAcmip5ts_",k,"_CMCC.CM_",type,"_",year[i],"_",j,"_",year[1],".",year[length(year)],"_V1.1.sweden.tif")
     #     outfile <- gsub('_(\\d)_', '_0\\1_', outfile)
@@ -349,28 +343,28 @@ for (m in 1:length(fold)){
                 tmin = paste0("CHELSAcmip5ts_tasmin_CMCC.CM_",type,"_",year[i],"_##_",year[1],".",year[length(year)],"_V1.1.sweden"),
                 precip = paste0("CHELSAcmip5ts_pr_CMCC.CM_",type,"_",year[i],"_##_",year[1],".",year[length(year)],"_V1.1.sweden"),
                 solrad = paste0("solar_",year[i],"_##_sweden"))
-    
+
     # rasterTemplate <- raster(outfile)
     # ETsolradRasters(rasterTemplate = rasterTemplate, year = year[i]-1950, outputDir = path, overwrite = TRUE)
     varnames()
     verifyFileStructure(paste0("./Data/CHELSA/sweden/",fold[m],"/",year[i]), returnFileNames = FALSE)
-    
+
     # chelsaFiles <- list.files(paste0("./Data/CHELSA/sweden/",fold[m],"/",year[i]), pattern = 'CHELSA', full.names = TRUE)
     # chelsaStack <- stack(chelsaFiles)
     # solarFiles <- list.files(paste0("./Data/CHELSA/sweden/",fold[m],"/",year[i]), pattern = 'solar', full.names = TRUE)
     # solarStack <- stack(solarFiles)
     # verifyRasterNames(chelsaStack, solradstack = solarStack)
-    
+
     outdir <- paste0("./Data/CHELSA/sweden/",fold[m],"/",year[i],"/envirem")
     # dir.create(outdir)
-    
-    generateRasters(var = 'all', 
+
+    generateRasters(var = 'all',
                     maindir = paste0("./Data/CHELSA/sweden/",fold[m],"/",year[i]),
                     outputDir = outdir)
-    
+
     enviremRasters <- list.files(outdir, pattern = '\\.tif$', full.names = TRUE)
     enviremRasters <- stack(enviremRasters)
-    
+
     # par(mfrow = c(4, 4), mar = c(0.5, 0.5, 2, 0))
     # dir.create(paste0("Figs/02_envirem/",year[i],"_",type))
     for (l in 1:nlayers(enviremRasters)) {
