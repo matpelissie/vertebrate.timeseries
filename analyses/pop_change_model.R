@@ -8,6 +8,8 @@ library(tidyverse)
 
 # Load data ---------------------------------------------------------------
 LPI <- data_lpi()
+
+# clean names
 LPI <- LPI  %>%
   dplyr::rename(lat='Decimal Latitude',
                 long='Decimal Longitude',
@@ -19,10 +21,6 @@ LPI <- LPI  %>%
 LPI.long <- LPI %>%
   # terrestrial vertebrates
   dplyr::filter(Class=="Mammalia" | Class=="Amphibia" | Class=="Aves" | Class=="Reptilia") %>%
-  # clean names
-  dplyr::rename(lat='Decimal Latitude',
-                long='Decimal Longitude',
-                country='Country list') %>%
   # wide to long
   tidyr::pivot_longer(26:70,names_to="year",values_to="pop") %>%
   dplyr::mutate(year=as.numeric(year))
