@@ -1,13 +1,21 @@
 # _targets.R file
 library(targets)
 source("R/data_LPI_treatment.R")
+library(tidyverse)
+
+path_to_data <- function() {
+  "data/LPIdata_Feb2016.csv"
+}
+
 list(
-  tar_target(raw_data_file, "data/LPIdata_Feb2016.csv", format = "file"
-),
- #make the workflow depends on the raw data file
-  tar_target(raw_data, data_lpi(raw_data_file)
+  tar_target(
+    raw_data_file, path_to_data(), format = "file"
+  ),
+  tar_target(raw_data, readr::read_csv(raw_data_file, col_types = readr::cols()
+  )
   ), #read the data, return a data.frame
-  tar_target(raw_data_long_format,
+  tar_target(
+    raw_data_long_format,
         raw_data%>%
         dplyr::filter(Class=="Mammalia" | Class=="Amphibia" | Class=="Aves" | Class=="Reptilia") %>%
         dplyr::rename(lat='Decimal Latitude',
@@ -16,15 +24,18 @@ list(
         tidyr::pivot_longer(26:70,names_to="year",values_to="pop") %>%
         dplyr::mutate(year=as.numeric(year))
   ), #Transform from wide to long format
-  tar_target(data_long_format_col,
+  tar_target(
+    data_long_format_col,
         raw_data_long_format%>%
         dplyr::mutate(species = paste(Genus, Species))
   ), #Create a new column for species
-  tar_target(data_coord,
+  tar_target(
+    data_coord,
         data_long_format_col %>%
         dplyr::select(lat,long)
   ), #Survey coordinates
-  tar_target(data_long,
+  tar_target(
+    data_long,
              data_long_format_col%>%
         tidyr::drop_na(pop) %>%
         dplyr::group_by(id) %>%
@@ -35,7 +46,8 @@ list(
         dplyr::filter(minyear <= 1980) %>%
         dplyr::ungroup()
   ), #Drop NAs and calculate length of monitoring
-  tar_target(data.models,
+  tar_target(
+    data_models,
              data_long %>%
     group_by(biome, system, country, Class, species, lengthyear, meanpop, lat, long, id) %>%
     do(mod = lm(pop ~ year, data = .)) %>%
@@ -58,17 +70,20 @@ list(
            lat = lat,
            long = long)
   ),#linear models of abundance trends over time for each population and extract model coefficients
-  tar_target(data.mod,
-             datamodels %>%
+  tar_target(
+    data_mod,
+             data_models %>%
                tidyr::drop_na(slope) %>%
                tidyr::drop_na(slope_p)
   ),# Count trends
-  tar_target(map_color,
+  tar_target(
+    map_color,
              c('#abdda4','#fdae61')
   ), #color for mapping
-  tar_target(map_data,
-             drawWorld("y")+
-               geom_point(data=data.mod,
+  tar_target(
+    map_data,
+             drawWorld()+
+               geom_point(data=data_mod,
                           aes(x=long, y=lat, color=slope<0,size=abs(slope)),
                           alpha=I(0.7))+
                scale_size_continuous(range=c(1,5))+
