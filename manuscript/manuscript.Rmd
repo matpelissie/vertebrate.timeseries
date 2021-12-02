@@ -2,7 +2,12 @@
 title: "Impact of climate change on terrestrial vertebrates dynamics"
 author: "Mathieu Pélissié"
 date: "02/12/2021"
-output: html_document
+bibliography: biblio.bib
+output: 
+  html_document:
+    toc: true
+    theme: united
+csl: nature.csl
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -11,12 +16,12 @@ knitr::opts_chunk$set(echo = TRUE)
 # Introduction
 
 According to the latest WWF report, the average population size of terrestrial 
-vertebrates has fallen by 68%  In less than 50 years(WWF, 2020). However, 
+vertebrates has fallen by 68%  In less than 50 years [@wwf_living_2020]. However, 
 recent studies have even suggested that the dynamics of biodiversity are not 
 really declining on average. They postulate that species at risk are dragging 
-down global indices (Leung et al., 2020), but that there are as many "winners" 
-as "losers" species in total (Dornelas et al., 2019). These last results have
-mainly been documented through the BioTIME database (Dornelas et al., 2018).
+down global indices [@leung_clustered_2020], but that there are as many "winners" 
+as "losers" species in total [@dornelas_balance_2019]. These last results have
+mainly been documented through the BioTIME database [@dornelas_biotime_2018].
 In this report, we propose to re-evaluate this through the Living Planet 
 Database. We also aim to investigate whether  population  dynamics are
 influenced  by  climate change.
@@ -83,3 +88,6 @@ summary(mod_biome)
 Surprisingly, no impact of the class belonging has been found (p-value=`r p_mod_class`).
 
 ## Climate change impacts
+
+
+# References

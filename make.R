@@ -9,4 +9,3 @@ devtools::load_all()
 
 rmarkdown::render(here::here("manuscript", "manuscript.Rmd"),
                   output_dir = here::here("manuscript"))
-
