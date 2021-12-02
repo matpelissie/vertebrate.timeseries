@@ -1,7 +1,7 @@
 ################################################################################
 ## Vertebrate time series
 ## 02/12/2021
-##
+## Population change models
 ################################################################################
 source(here::here("R","data_LPI_treatment.R"))
 library(tidyverse)
@@ -30,6 +30,7 @@ LPI.long<-dplyr::mutate(LPI.long, species = paste(Genus, Species))
 
 # Survey coordinates
 LPI.coord <- LPI %>%
+  dplyr::filter(Class=="Mammalia" | Class=="Amphibia" | Class=="Aves" | Class=="Reptilia") %>%
   dplyr::select(lat,long)
 saveRDS(LPI.coord, "data/CHELSA/LPI.coord.rds")
 
