@@ -34,3 +34,4 @@ renv::restore() # lorsque l'on pull le renv.lock
 ### climate data folder
 dir.create("data/CHELSA")
 dir.create("data/CHELSA/global")
+dir.create("manuscript")
