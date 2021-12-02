@@ -91,7 +91,7 @@ sum(LPI.mod$slope_p>=0.05) #1573 constant
 Col<-c('#abdda4','#fdae61')
 
 # plot the trends (colored and sized by slope)
-points<-drawWorld("y")+
+points<-drawWorld()+
   geom_point(data=LPI.models,
              aes(x=long, y=lat, color=slope<0,size=abs(slope)),
              alpha=I(0.7))+
