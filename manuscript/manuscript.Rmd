@@ -6,8 +6,6 @@ output: html_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-devtools::install_deps()
-devtools::load_all()
 ```
 
 # Introduction
@@ -26,6 +24,8 @@ influenced  by  climate change.
 
 # Population data
 
+## Methods
+
 The database considered contains 1212 species of terrestrial vertebrates and
 5529 population time series distributed worldwide. We only focused on time 
 series beginning after 1980 in order to be consistent with the climate data 
@@ -40,8 +40,11 @@ X(t) = \alpha_{0} + \alpha_{1}t + \epsilon(t)
 Where $X$  is the abundance estimate, $t$ the time in years, with process error 
 represented by $\epsilon$ ~ $N$(0,$\sigma$²).
 
+## Results
+
 The following map illustrates the distribution of the time series. Each 
-point is colored according to 
+point is colored according to its trend and sized according to the magnitude of
+its trend.
 
 ```{r, echo=FALSE}
 # colours
@@ -49,10 +52,20 @@ Col<-c('#abdda4','#fdae61')
 
 # plot the trends (colored and sized by slope)
 points<-drawWorld()+
-  geom_point(data=LPI.models,
+  geom_point(data=LPI.mod,
              aes(x=long, y=lat, color=slope<0,size=abs(slope)),
              alpha=I(0.7))+
   scale_size_continuous(range=c(1,5))+
-  scale_colour_manual(values= Col)
+  theme(plot.title = element_text(size=12, face="bold.italic"),
+        legend.position="bottom") +
+  guides(size = "none") +
+  scale_colour_manual(name="Slope", labels = c("increase", "decrease"), values= Col)+
+  labs(title="Figure 1: Terrestrial vertebrates population  declines and  increases  worldwide. ")
 points
 ```
+
+Among the 5529 populations, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope>0)` are
+increasing, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope<0)` are decreasing and 
+`r sum(LPI.mod$slope_p>=0.05)` are showing constant trends (p>0.05).
+
+

@@ -83,22 +83,5 @@ LPI.mod <- LPI.models %>%
   tidyr::drop_na(slope) %>%
   tidyr::drop_na(slope_p)
 
-sum(LPI.mod$slope_p<0.05 & LPI.mod$slope>0) #1920 increase
-sum(LPI.mod$slope_p<0.05 & LPI.mod$slope<0) #1742 decrease
-sum(LPI.mod$slope_p>=0.05) #1573 constant
-
-# colours
-Col<-c('#abdda4','#fdae61')
-
-# plot the trends (colored and sized by slope)
-points<-drawWorld()+
-  geom_point(data=LPI.models,
-             aes(x=long, y=lat, color=slope<0,size=abs(slope)),
-             alpha=I(0.7))+
-  scale_size_continuous(range=c(1,5))+
-  scale_colour_manual(values= Col)
-points
-
-
 
 
