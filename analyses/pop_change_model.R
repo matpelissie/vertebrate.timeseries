@@ -5,8 +5,14 @@
 ################################################################################
 source(here::here("R","data_LPI_treatment.R"))
 library(tidyverse)
+
 # Load data ---------------------------------------------------------------
 LPI <- data_lpi()
+LPI <- LPI  %>%
+  dplyr::rename(lat='Decimal Latitude',
+                long='Decimal Longitude',
+                country='Country list')
+
 
 # Transform from wide to long format --------------------------------------
 
@@ -25,7 +31,7 @@ LPI.long <- LPI %>%
 LPI.long<-dplyr::mutate(LPI.long, species = paste(Genus, Species))
 
 # Survey coordinates
-LPI.coord <- LPI.long %>%
+LPI.coord <- LPI %>%
   dplyr::select(lat,long)
 saveRDS(LPI.coord, "data/CHELSA/LPI.coord.rds")
 
