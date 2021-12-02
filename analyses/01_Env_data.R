@@ -15,7 +15,10 @@ library(maps)
 f <- read.table("data/CHELSA/envidatS3paths.txt") ; f <- as.character(f$V1)
 destfile <- "data/CHELSA/global/"
 
-download.file(f[1],destfile=paste0(destfile,strsplit(as.character(f[1]), "/")[[1]][10]), mode="wb")
+# download.file(f[1], destfile=paste0(destfile,strsplit(as.character(f[1]), "/")[[1]][10]), mode="wb")
+LPI.coord <- readRDS("data/CHELSA/LPI.coord.rds")
+template <- raster::raster("data/CHELSA/global/CHELSA_pr_01_1980_V.2.1.tif")
+plot(crop(template, c(0,10,0,10)))
 
 for(i in 1:length(f)){
   download.file(f[i],destfile=paste0(destfile,strsplit(as.character(f[i]), "/")[[1]][10]), mode="wb")
