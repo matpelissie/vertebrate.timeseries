@@ -30,6 +30,7 @@ LPI.long <- LPI.long %>%
          minyear = min(year),
          maxyear = max(year),
          lengthyear = maxyear - minyear) %>%
+  dplyr::filter(minyear <= 1980) %>%
   dplyr::ungroup()
 
 # Number of species = 2275
@@ -62,4 +63,14 @@ LPI.models <- LPI.long %>%
          lat = lat,
          long = long)
 
+####colours
+climCol<-c('#abdda4','#fdae61')
 
+#### add the point co-ordinates to the blank map (including polar and tropic latitudinal lines)
+points<-drawWorld("y")+
+  geom_point(data=LPI.models,
+             aes(x=long, y=lat, color=slope<0,size=abs(slope)),
+             alpha=I(0.7))+
+  scale_size_continuous(range=c(1,5))
+points<-points+scale_colour_manual(values= climCol)
+points
