@@ -81,12 +81,15 @@ list(
              c('#abdda4','#fdae61')
   ), #color for mapping
   tar_target(
-    map_data,
-             drawWorld()+
-               geom_point(data=data_mod,
-                          aes(x=long, y=lat, color=slope<0,size=abs(slope)),
-                          alpha=I(0.7))+
-               scale_size_continuous(range=c(1,5))+
-               scale_colour_manual(values= map_color)
+    map_data, drawWorld()+
+      geom_point(data=data_mod,
+                 aes(x=long, y=lat, color=slope<0,size=abs(slope)),
+                 alpha=I(0.7))+
+      scale_size_continuous(range=c(1,5))+
+      theme(plot.title = element_text(size=12, face="bold.italic"),
+            legend.position="bottom") +
+      guides(size = "none") +
+      scale_colour_manual(name="Slope", labels = c("increase", "decrease"), values= map_color)+
+      labs(title="Figure 1: Terrestrial vertebrates population  declines and  increases  worldwide. ")
   ) #map the trends
 )
