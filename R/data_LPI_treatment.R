@@ -11,10 +11,19 @@
 
 # Import time series data -------------------------------------------------
 
+#' Import time series data
+#'
+#' @return A tibble containing raw data
+#' @export
+#'
 data_lpi <- function() {
 
   readr::read_csv(
-    here::here("data","LPIdata_Feb2016.csv") # creation du chemin relatif
+    here::here("data","LPIdata_Feb2016.csv")
   )
 
 }
+
+
+
+
