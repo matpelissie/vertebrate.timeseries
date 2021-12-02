@@ -1,5 +1,16 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|iteration|parent|children|seconds|warnings|error
-raw_data_file|stem|0ad652d2799d4090|3765d3bed3f33d2f|ef46db3751d8e999|2110307107|data/LPIdata_Feb2016.csv|t18963.3576362675s|6c5932b84e591494|9959028|file|vector|||0||
-data_lpi|function|3154e8b5e51c1430||||||||||||||
-drawWorld|function|7bae021601e3b249||||||||||||||
 data.mod|stem||94620da41469a6cc|154e3cce310c15fa|321226778||t18963.6244142138s||0|rds|vector|||0||could not find function
+map_color|stem|77fc7fbe0b1b5778|ec28b7041862c620|a3dad144c40657ed|1861074964||t18963.6517138085s|1f9515807f9af984|69|rds|vector|||0.01||
+raw_data_file|stem|0ad652d2799d4090|9aaa295786f335fd|b841e6fac8e3c456|2110307107|data/LPIdata_Feb2016.csv|t18963.3576362675s|6c5932b84e591494|9959028|file|vector|||0||
+raw_data|stem|1aa9fac8346070f2|699d239eb79af4d8|a3814988facff01d|-979620141||t18963.6702367844s|f7e4a1d04c69356d|1812174|rds|vector|||0.56||
+raw_data_long_format|stem|a643fabd09a44740|92b5539de99b2112|ff1827416a6fedfa|-1234616345||t18963.6714200424s|fdfe148037ad2199|3163471|rds|vector|||0.45||
+data_long_format_col|stem|0a9a379643ff6a4c|f4bea018755dbc7e|b48aa83a45d67b26|1140439777||t18963.6714658381s|0981652982448a19|3316376|rds|vector|||0.08||
+data_long|stem|c67e697d8c6705c0|53931a1a9ab84bc2|f709db63a279d58f|1053362806||t18963.6714859078s|4200029edb9ad90b|1443446|rds|vector|||0.53||
+data_coord|stem|32bb9dd6656a9130|1883549f141d517f|65fa3b62edb0fd1d|1701858071||t18963.6714868547s|3e9cda9d74b73c68|116164|rds|vector|||0||
+data_models|stem|7929c8650b2a0c4a|58fea4f8f4acee6f|0aee53eba5c12557|703555315||t18963.6716367006s|75e42ef690e08c07|17626468|rds|vector|||6.98|essentially perfect fit summary may be unreliable|
+data_mod|stem|6a4e6309cc11c7f6|88c194f23a39d84c|96e1cf3b4de3f9fb|61400497||t18963.671706773s|96b49d0f9be574db|17580303|rds|vector|||0||
+data_lpi|function|3154e8b5e51c1430||||||||||||||
+drawWorld|function|fd6b6efe5d7cb61d||||||||||||||
+rasterValue|function|cd28fbaae97968a7||||||||||||||
+path_to_data|function|6823dd686fc3b71c||||||||||||||
+map_data|stem|4d2ef245d5b085f4|363fb08514b2eaa2|9809cacc68e644f7|1221326663||t18963.6757545406s|cffe7bea391b2ebc|44498559|rds|vector|||0.35||
