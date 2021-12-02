@@ -26,8 +26,8 @@ influenced  by  climate change.
 
 ## Methods
 
-The database considered contains 1212 species of terrestrial vertebrates and
-5529 population time series distributed worldwide. We only focused on time 
+The database considered contains `r length(unique(LPI.long$species))` species of terrestrial vertebrates and
+`r length(unique(LPI.long$id))` population time series distributed worldwide. We only focused on time 
 series beginning after 1980 in order to be consistent with the climate data 
 we analyse in the following part.
 
@@ -64,7 +64,7 @@ points<-drawWorld()+
 points
 ```
 
-Among the 5529 populations, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope>0)` are
+Among the `r length(unique(LPI.long$id))`, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope>0)` are
 increasing, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope<0)` are decreasing and 
 `r sum(LPI.mod$slope_p>=0.05)` are showing constant trends (p>0.05).
 
