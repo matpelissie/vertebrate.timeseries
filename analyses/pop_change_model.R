@@ -22,7 +22,7 @@ LPI.long <- LPI %>%
   dplyr::mutate(year=as.numeric(year))
 
 # Create new column with genus and species together
-LPI.long$species <- paste(LPI.long$Genus, LPI.long$Species)
+LPI.long<-dplyr::mutate(LPI.long, species = paste(Genus, Species))
 
 # Survey coordinates
 LPI.coord <- LPI.long %>%
