@@ -4,16 +4,18 @@
 ##
 ################################################################################
 source(here::here("R","data_LPI_treatment.R"))
+
 # Load data ---------------------------------------------------------------
 LPI <- data_lpi()
 
 # Transform from wide to long format --------------------------------------
 LPI.long <- LPI %>%
-  dplyr::select(id) %>%
-  tidyr::gather(key = "year", value = "pop")
-
-# Get rid of the X in front of years
-LPI.long$year <- parse_number(LPI.long$year)
+  dplyr::filter(Class=="Mammalia" | Class=="Amphibia" | Class=="Aves" | Class=="Reptilia") %>%
+  dplyr::rename(lat='Decimal Latitude',
+                long='Decimal Longitude',
+                country='Country list') %>%
+  tidyr::pivot_longer(26:70,names_to="year",values_to="pop") %>%
+  dplyr::mutate(year=as.numeric(year))
 
 # Create new column with genus and species together
 LPI.long$species <- paste(LPI.long$Genus, LPI.long$Species)
@@ -22,27 +24,25 @@ LPI.long$species <- paste(LPI.long$Genus, LPI.long$Species)
 
 # Calculate length of monitoring and scale population trend data
 LPI.long <- LPI.long %>%
-  drop_na(pop) %>%
-  group_by(id) %>%   # group rows so that each group is one population
-  mutate(scalepop = rescale(pop, to = c(-1, 1))) %>%
-  drop_na(scalepop) %>%
-  mutate(meanpop = mean(pop),  # Create column for mean population
+  tidyr::drop_na(pop) %>%
+  dplyr::group_by(id) %>%   # group rows so that each group is one population
+  dplyr::mutate(meanpop = mean(pop),  # Create column for mean population
          minyear = min(year),
          maxyear = max(year),
          lengthyear = maxyear - minyear) %>%
-  ungroup()
+  dplyr::ungroup()
 
-# Number of species = 2074
+# Number of species = 2275
 length(unique(LPI.long$species))
 
-# Number of populations = 9288
+# Number of populations = 11905
 length(unique(LPI.long$id))
 
 # ** Models ----
 # Run linear models of abundance trends over time for each population and extract model coefficients
 LPI.models <- LPI.long %>%
-  group_by(biome, system, Country.list, Class, species, lengthyear, meanpop, Decimal.Latitude, Decimal.Longitude, id) %>%
-  do(mod = lm(scalepop ~ year, data = .)) %>%  # Create a linear model for each group
+  group_by(biome, system, country, Class, species, lengthyear, meanpop, lat, long, id) %>%
+  do(mod = lm(pop ~ year, data = .)) %>%  # Create a linear model for each group
   mutate(., n = df.residual(mod),  # Create columns: degrees of freedom
          intercept = summary(mod)$coeff[1],  # intercept coefficient
          slope = summary(mod)$coeff[2],  # slope coefficient
@@ -54,16 +54,12 @@ LPI.models <- LPI.long %>%
   mutate(id = id,
          biome = biome,
          system = system,
-         Country.list = Country.list,
+         country = country,
          Class = Class,
          species = species,
          lengthyear = lengthyear,
          meanpop = meanpop,
-         Decimal.Latitude = Decimal.Latitude,
-         Decimal.Longitude = Decimal.Longitude)
+         lat = lat,
+         long = long)
 
-# Number of species = 2074
-length(unique(LPI.models$species))
 
-# Number of populations = 9284
-length(unique(LPI.models$id))
