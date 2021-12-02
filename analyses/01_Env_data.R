@@ -14,8 +14,12 @@ library(maps)
 # Bulk download
 f <- read.table("data/CHELSA/envidatS3paths.txt") ; f <- as.character(f$V1)
 destfile <- "data/CHELSA/global/"
+
+download.file(f[1],destfile=paste0(destfile,strsplit(as.character(f[1]), "/")[[1]][10]), mode="wb")
+
 for(i in 1:length(f)){
   download.file(f[i],destfile=paste0(destfile,strsplit(as.character(f[i]), "/")[[1]][10]), mode="wb")
+
 }
 
 # Import global data maps and crop/mask on sweden
