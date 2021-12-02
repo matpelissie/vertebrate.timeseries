@@ -39,5 +39,22 @@ drawWorld<-function() {
                panel.background=element_rect(fill="white", colour="white"), axis.line=element_line(colour="white"),
                axis.ticks=element_blank(), axis.text.x=element_blank(), axis.text.y=element_blank())
   return(g1)
+
 }
 
+
+
+#' Adding raster values in the global output dataframe
+#'
+#' @param ras_dat a dataframe containing raster values
+#' @param lpi_dat a dataframe containing models output
+#'
+#' @return a dataframe compiling models outputs and raster values
+#' @export
+#'
+rasterValue<-function(ras_dat,lpi_dat){
+
+  new_dat <- left_join(lpi_dat,ras_dat,by=c("lat","long"))
+  return (new_dat)
+
+}
