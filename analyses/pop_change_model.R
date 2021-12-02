@@ -32,6 +32,7 @@ LPI.long<-dplyr::mutate(LPI.long, species = paste(Genus, Species))
 
 # Survey coordinates
 LPI.coord <- LPI %>%
+  dplyr::filter(Class=="Mammalia" | Class=="Amphibia" | Class=="Aves" | Class=="Reptilia") %>%
   dplyr::select(lat,long)
 saveRDS(LPI.coord, "data/CHELSA/LPI.coord.rds")
 
