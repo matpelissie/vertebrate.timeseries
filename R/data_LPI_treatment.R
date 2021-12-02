@@ -4,11 +4,6 @@
 ## Fonctions
 ################################################################################
 
-# Renseigner les packages utilises ----------------------------------------
-# usethis::use_package("readr") # implementation automatique dans DESCRIPTION
-# usethis::use_package("here")
-
-
 #' Import time series data
 #'
 #' @return A tibble containing raw data
@@ -29,7 +24,7 @@ data_lpi <- function() {
 #' @return a ggplot showing the geographical distribution of the time series
 #' @export
 #'
-drawWorld<-function() {
+drawWorld <- function() {
 
   world_map<-map_data("world")
 
@@ -52,7 +47,7 @@ drawWorld<-function() {
 #' @return a dataframe compiling models outputs and raster values
 #' @export
 #'
-rasterValue<-function(ras_dat,lpi_dat){
+rasterValue <- function(ras_dat,lpi_dat){
 
   new_dat <- left_join(lpi_dat,ras_dat,by=c("lat","long"))
   return (new_dat)

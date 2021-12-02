@@ -1,7 +1,7 @@
 ################################################################################
 ## Vertebrate time series
 ## 02/12/2021
-##
+## Population change models
 ################################################################################
 source(here::here("R","data_LPI_treatment.R"))
 library(tidyverse)
@@ -19,8 +19,10 @@ LPI <- LPI  %>%
 # Transform from wide to long format --------------------------------------
 
 LPI.long <- LPI %>%
-  # terrestrial vertebrates
+  # vertebrates
   dplyr::filter(Class=="Mammalia" | Class=="Amphibia" | Class=="Aves" | Class=="Reptilia") %>%
+  # terrestrial
+  dplyr::filter(system=="Terrestrial") %>%
   # wide to long
   tidyr::pivot_longer(26:70,names_to="year",values_to="pop") %>%
   dplyr::mutate(year=as.numeric(year))
