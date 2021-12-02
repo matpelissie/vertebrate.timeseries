@@ -11,3 +11,11 @@
 #############################
 
 renv::init()
+renv::install()
+
+
+renv::status()
+renv::snapshot()
+rrtools::use_compendium("../vertebrate.timeseries/", open=FALSE)
+
+renv::restore() # lorsque l'on pull le renv.lock
