@@ -1,2 +1,4 @@
+^renv$
+^renv\.lock$
 ^vertebrate\.timeseries\.Rproj$
 ^\.Rproj\.user$
