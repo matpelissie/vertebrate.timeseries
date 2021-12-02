@@ -22,7 +22,7 @@ Database. We also aim to investigate whether  population  dynamics are
 influenced  by  climate change.
 
 
-# Population data
+# Population changes
 
 ## Methods
 
@@ -69,3 +69,17 @@ increasing, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope<0)` are decreasing and
 `r sum(LPI.mod$slope_p>=0.05)` are showing constant trends (p>0.05).
 
 
+# Population change drivers
+
+## Biogeographical drivers (biome and class impacts).
+
+We found biome signal among terrestrial vertebrates (p-value=`r p_mod_biome``),
+the results are presented below.
+
+```{r, echo=FALSE}
+summary(mod_biome)
+```
+
+Surprisingly, no impact of the class belonging has been found (p-value=`r p_mod_class`).
+
+## Climate change impacts
