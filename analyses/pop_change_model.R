@@ -4,7 +4,7 @@
 ##
 ################################################################################
 source(here::here("R","data_LPI_treatment.R"))
-
+library(tidyverse)
 # Load data ---------------------------------------------------------------
 LPI <- data_lpi()
 
@@ -74,3 +74,7 @@ points<-drawWorld("y")+
   scale_size_continuous(range=c(1,5))
 points<-points+scale_colour_manual(values= climCol)
 points
+
+#### Survey coordinates
+LPI.coord <- LPI.models %>% dplyr::select(lat,long)
+saveRDS(LPI.coord, "data/CHELSA/LPI.coord.rds")
