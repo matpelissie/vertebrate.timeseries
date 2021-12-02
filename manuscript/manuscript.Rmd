@@ -1,30 +1,58 @@
 ---
-title: "manuscript"
+title: "Impact of climate change on terrestrial vertebrates dynamics"
 author: "Mathieu Pélissié"
 date: "02/12/2021"
 output: html_document
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+devtools::install_deps()
+devtools::load_all()
 ```
 
-## R Markdown
+# Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+According to the latest WWF report, the average population size of terrestrial 
+vertebrates has fallen by 68%  In less than 50 years(WWF, 2020). However, 
+recent studies have even suggested that the dynamics of biodiversity are not 
+really declining on average. They postulate that species at risk are dragging 
+down global indices (Leung et al., 2020), but that there are as many "winners" 
+as "losers" species in total (Dornelas et al., 2019). These last results have
+mainly been documented through the BioTIME database (Dornelas et al., 2018).
+In this report, we propose to re-evaluate this through the Living Planet 
+Database. We also aim to investigate whether  population  dynamics are
+influenced  by  climate change.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+# Population data
+
+The database considered contains 1212 species of terrestrial vertebrates and
+5529 population time series distributed worldwide. We only focused on time 
+series beginning after 1980 in order to be consistent with the climate data 
+we analyse in the following part.
+
+Each  population  time  series  was  fitted  with  a  linear regression  model  to  quantify  the  trend  through:
+
+\begin{eqnarray*} 
+X(t) = \alpha_{0} + \alpha_{1}t + \epsilon(t)
+\end{eqnarray*}
+
+Where $X$  is the abundance estimate, $t$ the time in years, with process error 
+represented by $\epsilon$ ~ $N$(0,$\sigma$²).
+
+The following map illustrates the distribution of the time series. Each 
+point is colored according to 
+
+```{r, echo=FALSE}
+# colours
+Col<-c('#abdda4','#fdae61')
+
+# plot the trends (colored and sized by slope)
+points<-drawWorld()+
+  geom_point(data=LPI.models,
+             aes(x=long, y=lat, color=slope<0,size=abs(slope)),
+             alpha=I(0.7))+
+  scale_size_continuous(range=c(1,5))+
+  scale_colour_manual(values= Col)
+points
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
