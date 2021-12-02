@@ -1,0 +1,10 @@
+add_analysis	use_analysis
+add_dependencies_to_description	add_dependencies_to_description
+add_travis	use_travis
+create_compendium	create_compendium
+use_analysis	use_analysis
+use_circleci	use_circleci
+use_compendium	use_compendium
+use_dockerfile	use_dockerfile
+use_readme_rmd	use_readme_rmd
+use_travis	use_travis
