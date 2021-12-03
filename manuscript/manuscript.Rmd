@@ -71,6 +71,11 @@ Among the `r length(unique(LPI.long$id))`, `r sum(LPI.mod$slope_p<0.05 & LPI.mod
 increasing, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope<0)` are decreasing and 
 `r sum(LPI.mod$slope_p>=0.05)` are showing constant trends (p>0.05).
 
+# Climate change data
+
+## Methods
+
+
 
 # Population change drivers
 
