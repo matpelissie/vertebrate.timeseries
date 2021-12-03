@@ -1,0 +1,27 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|iteration|parent|children|seconds|warnings|error
+raw_data_file|stem|0ad652d2799d4090|9aaa295786f335fd|b841e6fac8e3c456|2110307107|data/LPIdata_Feb2016.csv|t18963.3576362675s|6c5932b84e591494|9959028|file|vector|||0||
+map_color|stem|77fc7fbe0b1b5778|ec28b7041862c620|a3dad144c40657ed|1861074964||t18964.5135427747s|1f9515807f9af984|69|rds|vector|||0||
+f.data|stem|7e11416a647adb2f|955ffc0ecf8554f2|4cc70dd6fdb17efa|-183701623||t18964.5135429249s|23604dd6b2f2db3c|386|rds|vector|||0||
+LPI.mod|stem||83537a6dc6ebd15c|f6232dc7e0a0dafe|-1883193134||t18964.5135430521s||0|rds|vector|||0.01||object data.mod not found
+tasmin|stem|de273026532fe6fc|a8ecd6bae6666816|471bcd26d9107b08|899601687||t18964.5144368097s|51e81b39c2948c10|270299|rds|vector|||2.47||
+LPI.coord|stem|9edb258f57c27771|6dc300f3d69b37ee|45dc084e90f18bb4|952875573||t18964.5144372917s|67b7e654eaedfcb0|28548|rds|vector|||0||
+tasmax|stem|e223a023ee4eadc7|3a40735af2f86cd1|471bcd26d9107b08|-1039478083||t18964.5144648974s|351b6b9ac8c13b0d|271309|rds|vector|||2.32||
+raw_data|stem|1aa9fac8346070f2|699d239eb79af4d8|a3814988facff01d|-979620141||t18964.5144758619s|f7e4a1d04c69356d|1812174|rds|vector|||0.55||
+f.data_character|stem|2b4f47aac83bfe7d|e5d0e994c9c74b62|c699ce1288ea4c18|-880348090||t18964.5144761736s|ae8fc52791e5984a|318|rds|vector|||0||
+raw_data_long_format|stem|a643fabd09a44740|92b5539de99b2112|ff1827416a6fedfa|-1234616345||t18964.5145280267s|fdfe148037ad2199|3163471|rds|vector|||0.6||
+raw_temperature_fold|stem||e4caa9452f0f0897|82a6dfc056a5fee1|428630828||t18964.5145286716s||0|file|vector|||0.01|wget not found|wget call had nonzero exit status
+mod_tmin|stem||7c6c6f6a69ef9f13|2355b44210afd0b4|1705976389||t18964.5290255489s||0|rds|vector|||0.02||object LPI.mod not found
+data_lpi|function|3154e8b5e51c1430||||||||||||||
+drawWorld|function|fd6b6efe5d7cb61d||||||||||||||
+LPI_env|function|fe560c10fb915313||||||||||||||
+temp_extremes|function|4ed31c5cb2cd0dfc||||||||||||||
+temp_name|function|913d2133dedaf225||||||||||||||
+merge_values|function|478f3251c04a95ac||||||||||||||
+download_temp|function|d863c94beca9bd1e||||||||||||||
+rasterValue|function|cd28fbaae97968a7||||||||||||||
+path_to_data|function|6823dd686fc3b71c||||||||||||||
+temp_diff|function|c526486730af46d4||||||||||||||
+extract_values|function|dfb7f1c162a208fd||||||||||||||
+save_temp_file|function|44128e397640839b||||||||||||||
+temp_extract|function|d3b753dd8ecd4f7f||||||||||||||
+temp_data|stem||f9242deef2282be5|afd5b7f689a2cf20|53087022||t18964.5523196041s||0|rds|vector|||0.06||Problem with mutate column rows.34mi39m rows  listsortdplyrc_acrosscID, long, lat, decreasing  ord.31mx39m object ord not found34mi39m The error occurred in row 1.

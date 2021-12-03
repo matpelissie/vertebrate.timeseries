@@ -124,9 +124,25 @@ list(
              merge_values("tasmin")
 
   ),
-  # tar_target(mod_tmax,
-  #            lm(slope~temp_diff_tasmax,data=LPI.mod)
-  # ),
+  tar_target(temp_data,
+             temp_diff(tasmax,tasmin)
+      ),
+  tar_target(LPI.new,
+             LPI_env(data_mod,temp_data, by=c("lat","long"))
+  ),# join two env and species datas
+
+  tar_target(mod_tmax,
+             lm(slope~temp_diff_tasmax,data=LPI.new)
+  ),
+  tar_target(p_mod_tmax,
+             anova(mod_tmax)[1,5]
+  ),
+  tar_target(mod_tmin,
+             lm(slope~temp_diff_tasmin,data=LPI.new)
+  ),# Tmax impact
+  tar_target(p_mod_tmin,
+             anova(mod_tmin)[1,5]
+  ),# Tmin impact
   tarchetypes::tar_render(manuscript,"manuscript/manuscript.Rmd"
   )
 
