@@ -60,10 +60,9 @@ rasterValue <- function(ras_dat,lpi_dat){
 #'
 #' @param URL a string corresponding to a URL
 #'
-#' @return No return value
+#' @return No return value.
 #' @export
 #'
-
 download_temp <- function (URL) {
 
   download.file(URL, destfile = paste0("data/CHELSA/global/", strsplit(as.character(URL), "/")[[1]][10]),
@@ -82,7 +81,13 @@ download_temp <- function (URL) {
 temp_name <- function (file) paste(strsplit(file, "_")[[1]][2:4], collapse = ".")
 
 
-# extract only temperature values from survey sites
+#' Extract temperature values from survey sites only
+#'
+#' @param file a string corresponding to the path of a downloaded temperature file
+#'
+#' @return a data.frame with average temperature from survey sites only
+#' @export
+#'
 extract_values <- function (file) {
 
   r <- raster::raster(file)
@@ -99,7 +104,14 @@ extract_values <- function (file) {
   return(temp_sites)
 }
 
-# save monthly site temperature in a csv
+#' Save monthly site temperature in a csv
+#'
+#' @param file a string corresponding to the path of a downloaded temperature file
+#' @param temp_sites the corresponding data frame with average temperature from survey sites only
+#'
+#' @return No return value.
+#' @export
+#'
 save_temp_file <- function (file, temp_sites) {
 
   readr::write_csv(temp_sites, paste0("data/CHELSA/sites/", temp_name(file), ".csv"))
@@ -108,10 +120,17 @@ save_temp_file <- function (file, temp_sites) {
 
 }
 
-# run download, process, save, and delete loops
+
+#' Run download, process, save, and delete loops
+#'
+#' @param f a list of strings corresponding to URLs of files to download
+#'
+#' @return No return value.
+#' @export
+#'
 temp_extract <- function (f) {
 
-  for (i in 21:length(f)){ # change back to 1
+  for (i in 1:length(f)){
     download_temp(f[i])
     file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
     temp_sites <- extract_values(file)
@@ -123,7 +142,14 @@ temp_extract <- function (f) {
   invisible(NULL)
 }
 
-# merge monthly csv into one
+
+#' Merge monthly csv into one
+#'
+#' @param tas a list of strings corresponding to URLs of files to download
+#'
+#' @return A dataframe
+#' @export
+#'
 merge_values <- function (tas) {
 
   if (!tas %in% c("tasmax","tasmin")) {
@@ -163,12 +189,24 @@ temp_extremes <- function (tas,year) {
 }
 
 # compute temperature difference between 1980 and 2010 for all sites
-temp_diff <- function (tas) {
+temp_diff <- function () {
 
-  temp_diff <- temp_extremes(tas,1980) %>%
-    dplyr::left_join(dplyr::select(temp_extremes(tas, 2010), -long, -lat), by = "ID") %>%
-    dplyr::mutate(temp_diff = mean_tas_2010 - mean_tas_1980) %>%
-    dplyr::mutate(temp_diff_sign = sign(temp_diff))
+  temp_diff_tasmax <- temp_extremes(tasmax,1980) %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmax, 2010), -long, -lat), by = "ID") %>%
+    dplyr::mutate(temp_diff = mean_tasmax_2010 - mean_tasmax_1980) %>%
+    dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
+    dplyr::rename(temp_diff_tasmax = "temp_diff",
+                  temp_diff_sign_tasmax = "temp_diff_sign")
 
+  temp_diff_tasmin <- temp_extremes(tasmin,1980) %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmin, 2010), -long, -lat), by = "ID") %>%
+    dplyr::mutate(temp_diff = mean_tasmin_2010 - mean_tasmin_1980) %>%
+    dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
+    dplyr::rename(temp_diff_tasmin = "temp_diff",
+                  temp_diff_sign_tasmin = "temp_diff_sign")
+
+  temp_diff <- temp_diff_tasmax %>%
+    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat), by = "ID")
   return(temp_diff)
 }
+
