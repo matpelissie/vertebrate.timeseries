@@ -214,3 +214,36 @@ temp_diff <- function () {
   return(temp_diff)
 }
 
+#' Join LPI and temperature dataframes
+#'
+#' @param LPI.coords a tibble with LPI data for retained sites
+#' @param temp_diff a tibble with temperature data and change between 1980 and 2010 for retained sites
+#'
+#' @return A tibble
+#' @export
+#'
+
+
+LPI_env <- function (LPI.coords, temp_diff) {
+
+  # r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+  # r[] <- NA
+  # raster::writeRaster(r, "data/CHELSA/template.t"if)
+  # unlink("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+  r <- raster::raster("data/CHELSA/template.tif")
+  LPI.coords <- LPI.models %>% dplyr::select(long, lat)
+  rast <- raster::rasterize(LPI.coords, r)
+  temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
+  t <- temp %>%
+    cbind(raster::coordinates(rast)[temp[,2],]) %>%
+    dplyr::select(x,y) %>%
+    dplyr::rename(long_r = "x",
+                  lat_r = "y") %>%
+    tibble::as_tibble() %>%
+    bind_cols(LPI.models)
+
+  LPI_env <- left_join(t, temp_diff, by = c("long_r", "lat_r"))
+
+  return(LPI_env)
+
+}

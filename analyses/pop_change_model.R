@@ -86,29 +86,33 @@ LPI.mod <- LPI.models %>%
   tidyr::drop_na(slope_p)
 
 
-<<<<<<< HEAD
-# raster corrdinates for LPI.mod
+# raster coordinates for LPI.mod --------------------------------------------
+
+LPI_env <- function (LPI.coords, temp_diff) {
+
+  # r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+  # r[] <- NA
+  # raster::writeRaster(r, "data/CHELSA/template.t"if)
+  # unlink("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+  r <- raster::raster("data/CHELSA/template.tif")
+  LPI.coords <- LPI.models %>% dplyr::select(long, lat)
+  rast <- raster::rasterize(LPI.coords, r)
+  temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
+  t <- temp %>%
+    cbind(raster::coordinates(rast)[temp[,2],]) %>%
+    dplyr::select(x,y) %>%
+    dplyr::rename(long_r = "x",
+                  lat_r = "y") %>%
+    tibble::as_tibble() %>%
+    bind_cols(LPI.models)
+
+  LPI_env <- left_join(t, temp_diff, by = c("long_r", "lat_r"))
+
+  return(LPI_env)
+
+}
 
 
-# r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
-# r[] <- NA
-# raster::writeRaster(r, "data/CHELSA/template.t"if)
-# unlink("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
-r <- raster::raster("data/CHELSA/global/template.tif")
-LPI.coords <- LPI.models %>% dplyr::select(long, lat)
-rast <- raster::rasterize(LPI.coords, r)
-temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
-t <- temp %>%
-  cbind(raster::coordinates(rast)[temp[,2],]) %>%
-  dplyr::select(x,y) %>%
-  dplyr::rename(long_r = "x",
-                lat_r = "y") %>%
-  tibble::as_tibble() %>%
-  bind_cols(LPI.models)
-
-LPI.mod.coords <- left_join(t, temp_diff, by = c("long_r", "lat_r"))
 
 
-=======
->>>>>>> 53eb18f239de517b76b7d9f04494d25a091d184f
 
