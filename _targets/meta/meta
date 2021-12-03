@@ -34,6 +34,6 @@ rasterValue|function|cd28fbaae97968a7||||||||||||||
 path_to_data|function|6823dd686fc3b71c||||||||||||||
 temp_diff|function|d70b2255e4fee1f6||||||||||||||
 extract_values|function|dfb7f1c162a208fd||||||||||||||
-save_temp_file|function|030f0e4e9be719bf||||||||||||||
-temp_extract|function|c3c7e27d42e8c0cd||||||||||||||
-raw_temperature_fold|stem|36bb83125ccc8407|e4caa9452f0f0897|ecd14fdaca2a178a|428630828||t18964.4086955459s||333|rds|vector|||0.02|wget not found|wget call had nonzero exit status
+save_temp_file|function|44128e397640839b||||||||||||||
+temp_extract|function|d3b753dd8ecd4f7f||||||||||||||
+raw_temperature_fold|stem|36bb83125ccc8407|e4caa9452f0f0897|82a6dfc056a5fee1|428630828||t18964.4086955459s||333|rds|vector|||0.02|wget not found|wget call had nonzero exit status
