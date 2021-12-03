@@ -11,6 +11,7 @@ csl: nature.csl
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(targets)
 ```
 
 ```{r, include=FALSE}

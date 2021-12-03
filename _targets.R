@@ -2,7 +2,7 @@
 library(targets)
 source("R/data_LPI_treatment.R")
 library(tidyverse)
-
+library(tarchetypes)
 
 path_to_data <- function() {
   "data/LPIdata_Feb2016.csv"
@@ -132,6 +132,8 @@ list(
   tar_target(tasmin,
              merge_values("tasmin")
 
+  ),
+  tarchetypes::tar_render(manuscript,"manuscript/manuscript.Rmd"
   )
 
 )
