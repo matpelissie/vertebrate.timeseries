@@ -135,10 +135,10 @@ temp_diff <- function () {
     dplyr::rename(temp_diff_tasmin = "temp_diff",
                   temp_diff_sign_tasmin = "temp_diff_sign")
 
-  temp_diff <- temp_diff_tasmax %>%
+  temp_data <- temp_diff_tasmax %>%
     dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat), by = "ID") %>%
     dplyr::rename(long_r = "long",
                   lat_r = "lat")
-  return(temp_diff)
+  return(temp_data)
 }
-temp_diff <- temp_diff()
+temp_data <- temp_diff()

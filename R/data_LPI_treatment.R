@@ -224,7 +224,7 @@ temp_diff <- function (tasmax, tasmin) {
 #'
 
 
-LPI_env <- function (pop_mod, temp_diff) {
+LPI_env <- function (pop_mod, temp_data) {
 
   # r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
   # r[] <- NA
@@ -242,9 +242,9 @@ LPI_env <- function (pop_mod, temp_diff) {
     tibble::as_tibble() %>%
     bind_cols(pop_mod)
 
-  LPI_env <- left_join(t, temp_diff, by = c("long_r", "lat_r"))
+  LPI_env <- left_join(t, temp_data[2:11], by = c("long_r", "lat_r"))
 
-  return(LPI_env)
+  return(list(LPI_env,t))
 
 }
 

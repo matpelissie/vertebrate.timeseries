@@ -4,7 +4,7 @@
 ## Population change drivers
 ################################################################################
 
-LPI.mod <- LPI_env(LPI.mod,temp_diff)
+t <- LPI_env(LPI.mod,temp_data)
 
 
 # Testing biomes impacts --------------------------------------------------
