@@ -58,7 +58,7 @@ save_temp_file <- function (file, temp_sites) {
 # run download, process, save, and delete loops
 temp_extract <- function (f) {
 
-  for (i in 21:length(f)){ # change back to 1
+  for (i in 1:length(f)){
     download_temp(f[i])
     file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
     temp_sites <- extract_values(file)
@@ -98,42 +98,46 @@ tasmax <- merge_values("tasmax")
 tasmin <- merge_values("tasmin")
 
 # average the 3 highest or lowest month temperatures
-temp_extremes <- function (tas,year) {
+temp_extremes <- function (tas, year) {
 
-  if (deparse(quote(tas))=="tasmax") ord <- TRUE
-  if (deparse(quote(tas))=="tasmin") ord <- FALSE
+  tas_str <- deparse(substitute(tas))
+  if (tas_str=="tasmax") ord <- TRUE
+  if (tas_str=="tasmin") ord <- FALSE
 
   temp_extremes <- tas %>%
     dplyr::select(dplyr::contains("ID") | dplyr::contains("long") |dplyr::contains("lat") | dplyr::contains(as.character(year))) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(rows = list(sort(dplyr::c_across(-c(ID, long, lat)), decreasing = ord))) %>%
+    dplyr::mutate(rows = list(sort(dplyr::c_across(-c(ID, long, lat)), decreasing = ord ))) %>%
     dplyr::mutate(top_1 = rows[1], top_2 = rows[2], top_3 = rows[3]) %>%
-    dplyr::mutate("mean_tas_{year}" := mean(top_1,top_2,top_3)) %>%
+    dplyr::mutate("mean_{tas_str}_{year}" := mean(top_1,top_2,top_3)) %>%
     dplyr::select(ID, long, lat, dplyr::contains("mean"))
   return(temp_extremes)
 }
 
 temp_extremes(tasmax, 1980)
+temp_extremes(tasmax, 2010)
+temp_extremes(tasmin, 1980)
+temp_extremes(tasmin, 2010)
 
 # compute temperature difference between 1980 and 2010 for all sites
-temp_diff <- function (tas) {
+temp_diff <- function () {
 
-  temp_diff <- temp_extremes(tas,1980) %>%
-    dplyr::left_join(dplyr::select(temp_extremes(tas, 2010), -long, -lat), by = "ID") %>%
-    dplyr::mutate(temp_diff = mean_tas_2010 - mean_tas_1980) %>%
-    dplyr::mutate(temp_diff_sign = sign(temp_diff))
+  temp_diff_tasmax <- temp_extremes(tasmax,1980) %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmax, 2010), -long, -lat), by = "ID") %>%
+    dplyr::mutate(temp_diff = mean_tasmax_2010 - mean_tasmax_1980) %>%
+    dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
+    dplyr::rename(temp_diff_tasmax = "temp_diff",
+                  temp_diff_sign_tasmax = "temp_diff_sign")
 
+  temp_diff_tasmin <- temp_extremes(tasmin,1980) %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmin, 2010), -long, -lat), by = "ID") %>%
+    dplyr::mutate(temp_diff = mean_tasmin_2010 - mean_tasmin_1980) %>%
+    dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
+    dplyr::rename(temp_diff_tasmin = "temp_diff",
+                  temp_diff_sign_tasmin = "temp_diff_sign")
+
+  temp_diff <- temp_diff_tasmax %>%
+    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat), by = "ID")
   return(temp_diff)
 }
 
-temp_diff_max <- temp_diff(tasmax)
-temp_diff_min <- temp_diff(tasmin)
-
-
-# plot changes
-points<-drawWorld()+
-  geom_point(data=temp_diff_min,
-             aes(x=long, y=lat, size=temp_diff, col = temp_diff_sign),
-             alpha=I(0.7))+
-  scale_size_continuous(range=c(0.1,5))
-points
