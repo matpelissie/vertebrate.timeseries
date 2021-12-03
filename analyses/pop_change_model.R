@@ -50,12 +50,6 @@ LPI.long <- LPI.long %>%
   dplyr::filter(minyear <= 1980) %>%
   dplyr::ungroup()
 
-# Number of species = 1212
-length(unique(LPI.long$species))
-
-# Number of populations = 5529
-length(unique(LPI.long$id))
-
 
 # Run models --------------------------------------------------------------
 

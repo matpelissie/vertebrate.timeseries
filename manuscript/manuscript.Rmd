@@ -13,6 +13,17 @@ csl: nature.csl
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, include=FALSE}
+#load targets
+LPI.long <- tar_read(data_long)
+LPI.mod <- tar_read(data_mod)
+map_trends <- tar_read(map_trends)
+mod_biome <- tar_read(mod_biome)
+p_mod_biome <- tar_read(p_mod_biome)
+mod_class <- tar_read(mod_class)
+p_mod_class <- tar_read(p_mod_class)
+```
+
 # Introduction
 
 According to the latest WWF report, the average population size of terrestrial 
@@ -52,21 +63,7 @@ point is colored according to its trend and sized according to the magnitude of
 its trend.
 
 ```{r, echo=FALSE}
-# colours
-Col<-c('#abdda4','#fdae61')
-
-# plot the trends (colored and sized by slope)
-points<-drawWorld()+
-  geom_point(data=LPI.mod,
-             aes(x=long, y=lat, color=slope<0,size=abs(slope)),
-             alpha=I(0.7))+
-  scale_size_continuous(range=c(1,5))+
-  theme(plot.title = element_text(size=12, face="bold.italic"),
-        legend.position="bottom") +
-  guides(size = "none") +
-  scale_colour_manual(name="Slope", labels = c("increase", "decrease"), values= Col)+
-  labs(title="Figure 1: Terrestrial vertebrates population  declines and  increases  worldwide. ")
-points
+map_trends
 ```
 
 Among the `r length(unique(LPI.long$id))`, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope>0)` are
