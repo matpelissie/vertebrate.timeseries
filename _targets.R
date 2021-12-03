@@ -2,7 +2,7 @@
 library(targets)
 source("R/data_LPI_treatment.R")
 library(tidyverse)
-
+library(tarchetypes)
 
 path_to_data <- function() {
   "data/LPIdata_Feb2016.csv"
@@ -114,17 +114,8 @@ list(
              readRDS("data/CHELSA/LPI.coord.rds")
     ),# coordinates of survey sites
   tar_target(raw_temperature_fold,
-             function (f.data_character) {
-
-               for (i in 21:length(f.data_character)){ # change back to 1
-                 download_temp(f.data_character[i])
-                 file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
-                 temp_sites <- extract_values(file)
-                 save_temp_file(file, temp_sites)
-                 unlink(file)
-                 gc(verbose = FALSE)
-               }
-             }
+             temp_extract(f.data_character),
+             format = "file"
   ),# download a raw temperature file
   tar_target(tasmax,
             merge_values("tasmax")
@@ -132,6 +123,11 @@ list(
   tar_target(tasmin,
              merge_values("tasmin")
 
+  ),
+  # tar_target(mod_tmax,
+  #            lm(slope~temp_diff_tasmax,data=LPI.mod)
+  # ),
+  tarchetypes::tar_render(manuscript,"manuscript/manuscript.Rmd"
   )
 
 )
