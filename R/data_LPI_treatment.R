@@ -53,3 +53,32 @@ rasterValue <- function(ras_dat,lpi_dat){
   return (new_dat)
 
 }
+
+
+
+#' Download a raw temperature file from CHELSA climate
+#'
+#' @param URL a string corresponding to a URL
+#'
+#' @return No return value
+#' @export
+#'
+
+download <- function (URL) {
+
+  download.file(URL, destfile = paste0("data/CHELSA/global/", strsplit(as.character(URL), "/")[[1]][10]),
+                method = "wget", extra = "-r -p --random-wait")
+
+  invisible(NULL)
+}
+
+#' Define temperature column name
+#'
+#' @param file a string corresponding to the path of a downloaded temperature file
+#'
+#' @return A short name of the temperature dataset in the form of tasmax/tasmin.month.year
+#' @export
+#'
+temp_name <- function (file) paste(strsplit(file, "_")[[1]][2:4], collapse = ".")
+
+
