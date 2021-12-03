@@ -95,35 +95,40 @@ merge_values <- function (tas) {
 }
 
 tasmax <- merge_values("tasmax")
+tasmin <- merge_values("tasmin")
 
 
-tasmax_1980 <- tasmax %>%
-  dplyr::select(dplyr::contains("ID") | dplyr::contains("1980"))
+temp_extremes <- function (tas,year) {
 
-tasmax_1980 <- tasmax_1980 %>%
-  dplyr::mutate(mean_tasmax_1980 = rowMeans(dplyr::select(tasmax_1980, dplyr::contains("1980")), na.rm = TRUE))
+  if (deparse(quote(tas))=="tasmax") ord <- TRUE
+  if (deparse(quote(tas))=="tasmin") ord <- FALSE
 
-tasmax_2010 <- tasmax %>%
-  dplyr::select(dplyr::contains("ID") | dplyr::contains("2010"))
-
-tasmax_2010 <- tasmax_2010 %>%
-  dplyr::mutate(mean_tasmax_2010 = rowMeans(dplyr::select(tasmax_2010, dplyr::contains("2010")), na.rm = TRUE))
-
-tasmax_2010_mean <- tasmax_2010 %>%
-  dplyr::select(dplyr::contains("ID") | dplyr::contains("mean"))
-
-tasmax_mean_diff <- tasmax_1980 %>%
-  dplyr::select(dplyr::contains("ID") | dplyr::contains("mean")) %>%
-  dplyr::left_join(tasmax_2010_mean, by = "ID") %>%
-  dplyr::mutate(tasmax_mean_diff = mean_tasmax_2010 - mean_tasmax_1980)
-
-hist(tasmax_mean_diff$tasmax_mean_diff)
-
-
-temp_average <- function () {
-
-
+  # average the 3 highest or lowest month temperatures
+  tas_extremes <- tas %>%
+    dplyr::select(dplyr::contains("ID") | dplyr::contains(as.character(year))) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(rows = list(sort(dplyr::c_across(-ID), decreasing = ord))) %>%
+    dplyr::mutate(top_1 = rows[1], top_2 = rows[2], top_3 = rows[3]) %>%
+    dplyr::mutate("mean_tas_{year}" := mean(top_1,top_2,top_3)) %>%
+    dplyr::select(ID, dplyr::contains("mean"))
+  return(tas_extremes)
 }
+
+temp_extremes(tasmax,1980)
+temp_extremes(tasmax,2010)
+temp_extremes(tasmin,1980)
+temp_extremes(tasmin,2010)
+
+temp_diff <- function (tas) {
+
+  temp_diff <- temp_extremes(tas,1980) %>%
+    dplyr::left_join(temp_extremes(tas,2010), by = "ID") %>%
+    dplyr::mutate(temp_diff = mean_tas_2010 - mean_tas_1980)
+  return(temp_diff)
+}
+
+temp_diff(tasmax)
+temp_diff(tasmin)
 
 
 # plot changes
