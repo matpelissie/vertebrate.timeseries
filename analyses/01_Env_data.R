@@ -49,25 +49,30 @@ extract_values <- function (file) {
 # save monthly site temperature in a csv
 save_temp_file <- function (file, temp_sites) {
 
-  readr::write_csv(temp_sites, paste0("data/CHELSA/sites/", temp_name(file), ".csv"))
+  path_to_file <- paste0("data/CHELSA/sites/", temp_name(file), ".csv")
 
-  invisible(NULL)
+  readr::write_csv(temp_sites, path_to_file)
+
+  return(path_to_file)
 
 }
 
 # run download, process, save, and delete loops
 temp_extract <- function (f) {
 
+
+  files <- NULL
+
   for (i in 1:length(f)){
     download_temp(f[i])
     file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
     temp_sites <- extract_values(file)
-    save_temp_file(file, temp_sites)
+    files [i] <- save_temp_file(file, temp_sites)
     unlink(file)
     gc(verbose = FALSE)
   }
 
-  invisible(NULL)
+  return(files)
 }
 
 temp_extract(f)

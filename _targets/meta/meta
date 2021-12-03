@@ -20,6 +20,10 @@ tasmax|stem|e223a023ee4eadc7|3a40735af2f86cd1|471bcd26d9107b08|-1039478083||t189
 tasmin|stem|de273026532fe6fc|a8ecd6bae6666816|471bcd26d9107b08|899601687||t18964.394003258s|51e81b39c2948c10|270299|rds|vector|||2.44||
 f.data|stem|7e11416a647adb2f|955ffc0ecf8554f2|4cc70dd6fdb17efa|-183701623||t18964.3706940102s|23604dd6b2f2db3c|386|rds|vector|||0.01||
 mod_tmax|stem||66d626198f3dd003|33130b803a3ff901|-1541517198||t18964.4418173104s||0|rds|vector|||0||object LPI.mod not found
+LPI.coord|stem|9edb258f57c27771|6dc300f3d69b37ee|45dc084e90f18bb4|952875573||t18964.3709225377s|67b7e654eaedfcb0|28548|rds|vector|||0||
+raw_data|stem|1aa9fac8346070f2|699d239eb79af4d8|a3814988facff01d|-979620141||t18964.3709369631s|f7e4a1d04c69356d|1812174|rds|vector|||0.84||
+f.data_character|stem|2b4f47aac83bfe7d|e5d0e994c9c74b62|c699ce1288ea4c18|-880348090||t18964.3709373472s|ae8fc52791e5984a|318|rds|vector|||0||
+raw_data_long_format|stem|a643fabd09a44740|92b5539de99b2112|ff1827416a6fedfa|-1234616345||t18964.4425302249s|fdfe148037ad2199|3163471|rds|vector|||0.51||
 data_lpi|function|3154e8b5e51c1430||||||||||||||
 drawWorld|function|fd6b6efe5d7cb61d||||||||||||||
 temp_extremes|function|4ed31c5cb2cd0dfc||||||||||||||
@@ -32,8 +36,4 @@ temp_diff|function|d70b2255e4fee1f6||||||||||||||
 extract_values|function|dfb7f1c162a208fd||||||||||||||
 save_temp_file|function|030f0e4e9be719bf||||||||||||||
 temp_extract|function|c3c7e27d42e8c0cd||||||||||||||
-LPI.coord|stem|9edb258f57c27771|6dc300f3d69b37ee|45dc084e90f18bb4|952875573||t18964.3709225377s|67b7e654eaedfcb0|28548|rds|vector|||0||
-raw_data|stem|1aa9fac8346070f2|699d239eb79af4d8|a3814988facff01d|-979620141||t18964.3709369631s|f7e4a1d04c69356d|1812174|rds|vector|||0.84||
-f.data_character|stem|2b4f47aac83bfe7d|e5d0e994c9c74b62|c699ce1288ea4c18|-880348090||t18964.3709373472s|ae8fc52791e5984a|318|rds|vector|||0||
-raw_data_long_format|stem|a643fabd09a44740|92b5539de99b2112|ff1827416a6fedfa|-1234616345||t18964.4425302249s|fdfe148037ad2199|3163471|rds|vector|||0.51||
-raw_temperature_fold|stem|36bb83125ccc8407|e4caa9452f0f0897|ecd14fdaca2a178a|428630828||t18964.4086955459s||333|rds|vector|||0.01|wget not found|wget call had nonzero exit status
+raw_temperature_fold|stem|36bb83125ccc8407|e4caa9452f0f0897|ecd14fdaca2a178a|428630828||t18964.4086955459s||333|rds|vector|||0.02|wget not found|wget call had nonzero exit status

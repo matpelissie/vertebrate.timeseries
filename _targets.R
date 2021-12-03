@@ -114,8 +114,8 @@ list(
              readRDS("data/CHELSA/LPI.coord.rds")
     ),# coordinates of survey sites
   tar_target(raw_temperature_fold,
-             temp_extract(f.data_character)
-
+             temp_extract(f.data_character),
+             format = "file"
   ),# download a raw temperature file
   tar_target(tasmax,
             merge_values("tasmax")
@@ -125,7 +125,7 @@ list(
 
   ),
   # tar_target(mod_tmax,
-             # lm(slope~temp_diff_tasmax,data=LPI.mod)
+  #            lm(slope~temp_diff_tasmax,data=LPI.mod)
   # ),
   tarchetypes::tar_render(manuscript,"manuscript/manuscript.Rmd"
   )
