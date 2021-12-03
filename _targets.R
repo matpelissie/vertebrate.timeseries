@@ -3,10 +3,10 @@ library(targets)
 source("R/data_LPI_treatment.R")
 library(tidyverse)
 
+
 path_to_data <- function() {
   "data/LPIdata_Feb2016.csv"
 }
-
 list(
   tar_target(
     raw_data_file, path_to_data(), format = "file"
@@ -81,7 +81,7 @@ list(
              c('#abdda4','#fdae61')
   ), #color for mapping
   tar_target(
-    map_data, drawWorld()+
+    map_trends, drawWorld()+
       geom_point(data=data_mod,
                  aes(x=long, y=lat, color=slope<0,size=abs(slope)),
                  alpha=I(0.7))+
@@ -91,5 +91,47 @@ list(
       guides(size = "none") +
       scale_colour_manual(name="Slope", labels = c("increase", "decrease"), values= map_color)+
       labs(title="Figure 1: Terrestrial vertebrates population  declines and  increases  worldwide. ")
-  ) #map the trends
+  ), #map the trends
+  tar_target(mod_biome,
+             lm(slope ~ biome, data = data_mod)
+  ),#model for biomes impacts
+  tar_target(p_mod_biome,
+             anova(mod_biome)[1,5]
+  ),# Testing biomes impacts
+  tar_target(mod_class,
+             lm(slope ~ Class, data = data_mod)
+  ),#model for class impacts
+  tar_target(p_mod_class,
+             anova(mod_class)[1,5]
+  ), # testing class impacts
+  tar_target(f.data,
+            read.table("data/CHELSA/envidatS3paths_light_temp.txt")
+),# read URL paths to data
+  tar_target(f.data_character,
+             as.character(f.data$V1)
+  ),#data as character
+  tar_target(LPI.coord,
+             readRDS("data/CHELSA/LPI.coord.rds")
+    ),# coordinates of survey sites
+  tar_target(raw_temperature_fold,
+             function (f.data_character) {
+
+               for (i in 21:length(f.data_character)){ # change back to 1
+                 download_temp(f.data_character[i])
+                 file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
+                 temp_sites <- extract_values(file)
+                 save_temp_file(file, temp_sites)
+                 unlink(file)
+                 gc(verbose = FALSE)
+               }
+             }
+  ),# download a raw temperature file
+  tar_target(tasmax,
+            merge_values("tasmax")
+  ),
+  tar_target(tasmin,
+             merge_values("tasmin")
+
+  )
+
 )
