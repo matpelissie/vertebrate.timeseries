@@ -4,7 +4,7 @@
 ## Population change drivers
 ################################################################################
 
-LPI.mod <- left_join(LPI.mod,temp_diff(), by=c("lat","long"))
+LPI.mod <- LPI_env(LPI.mod,temp_diff)
 
 
 # Testing biomes impacts --------------------------------------------------
