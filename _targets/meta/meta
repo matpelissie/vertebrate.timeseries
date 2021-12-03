@@ -3,16 +3,6 @@ data.mod|stem||94620da41469a6cc|154e3cce310c15fa|321226778||t18963.6244142138s||
 map_data|stem|c847518b05d31f16|3c202101461a3eda|6a894b15e573fe02|1221326663||t18963.7092043066s|2b65b78472ee6b82|44500153|rds|vector|||0.199||
 raw_temperature|stem||e4caa9452f0f0897|6b03588c6dbbdc47|-1596400283||t18964.3709877794s||0|rds|vector|||0.01|wget not found|wget call had nonzero exit status
 temp_diff_max|stem||f999f0100d44e692|49bdebfb87494aa1|654868817||t18964.394004262s||0|rds|vector|||0.07||Problem with mutate column rows.34mi39m rows  listsortdplyrc_acrosscID, long, lat, decreasing  ord.31mx39m object ord not found34mi39m The error occurred in row 1.
-raw_data_file|stem|0ad652d2799d4090|9aaa295786f335fd|b841e6fac8e3c456|2110307107|data/LPIdata_Feb2016.csv|t18961.6247749511s|5e7b93565a311527|9959028|file|vector|||0||
-map_color|stem|77fc7fbe0b1b5778|ec28b7041862c620|a3dad144c40657ed|1861074964||t18963.6974818569s|991ef619886270ed|69|rds|vector|||0||
-tasmax|stem|e223a023ee4eadc7|3a40735af2f86cd1|471bcd26d9107b08|-1039478083||t18964.4086955921s|a3ece3997209d3e5|271309|rds|vector|||2.42||
-tasmin|stem|de273026532fe6fc|a8ecd6bae6666816|471bcd26d9107b08|899601687||t18964.4086955921s|755e2ad6912e5579|270299|rds|vector|||2.44||
-raw_temperature_fold|stem|36bb83125ccc8407|d9d3bc39cf7d5709|ad23d35dcd1f6b58|428630828||t18964.4086955459s|657656f2b1ef41fe|333|rds|vector|||0.01||
-f.data|stem|7e11416a647adb2f|955ffc0ecf8554f2|4cc70dd6fdb17efa|-183701623||t18964.4086925366s|c047e2a96adccb67|386|rds|vector|||0.01||
-LPI.coord|stem|9edb258f57c27771|6dc300f3d69b37ee|45dc084e90f18bb4|952875573||t18964.4086908236s|3f08668e33bab7dd|28548|rds|vector|||0||
-raw_data|stem|1aa9fac8346070f2|699d239eb79af4d8|a3814988facff01d|-979620141||t18963.6974833847s|26620f1b0707e388|1812174|rds|vector|||0.84||
-f.data_character|stem|2b4f47aac83bfe7d|e5d0e994c9c74b62|c699ce1288ea4c18|-880348090||t18964.4086925366s|f008763eb0bfd232|318|rds|vector|||0||
-raw_data_long_format|stem|d637f019d8c45be7|92b5539de99b2112|122a065c08f9438e|-1234616345||t18964.4146879998s|b198432bc88a5c09|3163471|rds|vector|||0.356||
 data_long_format_col|stem|33187ad453aca4ac|f4bea018755dbc7e|ec5b401e6b3b1e30|1140439777||t18964.4147196204s|c8ac303b3a0e9702|3316375|rds|vector|||0.05||
 data_long|stem|b548cb88491a9fce|53931a1a9ab84bc2|df5bf61a1a8e7b3a|1053362806||t18964.4147335094s|c76239d3cc412076|1443445|rds|vector|||0.38||
 data_coord|stem|d790ed1adbfd75af|1883549f141d517f|16b3dfbaea3cc066|1701858071||t18964.4147341575s|49cf3316758595fa|116163|rds|vector|||0.002||
@@ -23,6 +13,13 @@ mod_biome|stem|02bf78b04883b600|24bdeced7349f40a|97241625dfba8d82|426953313||t18
 map_trends|stem|d434cc5189a27e27|3c202101461a3eda|5ebcbc89df3cc21f|-2080286446||t18964.4150887897s|663db2af893fea14|44526271|rds|vector|||0.052||
 p_mod_class|stem|493ff034d420c3f1|b268e591335e53ca|04fa473b588816cb|238201203||t18964.4150898545s|a96c250e4b19e03e|54|rds|vector|||0.002||
 p_mod_biome|stem|193090d7f6fab8f1|fa0800ba874eba95|19ef95a7e7ff542f|1940564402||t18964.4150899008s|a96c250e4b19e03e|54|rds|vector|||0.001||
+manuscript|stem|6191b0f7aec20d4e|24ebb279f0747005|0b0d6e1e7c1b52ad|615889701|manuscript/manuscript.html*manuscript/manuscript.Rmd|t18964.4252862292s|293f0ac6dd69c129|1147482|file|vector|||16.289||
+raw_data_file|stem|0ad652d2799d4090|9aaa295786f335fd|b841e6fac8e3c456|2110307107|data/LPIdata_Feb2016.csv|t18963.3576362675s|6c5932b84e591494|9959028|file|vector|||0||
+map_color|stem|77fc7fbe0b1b5778|ec28b7041862c620|a3dad144c40657ed|1861074964||t18964.3706938483s|1f9515807f9af984|69|rds|vector|||0||
+tasmax|stem|e223a023ee4eadc7|3a40735af2f86cd1|471bcd26d9107b08|-1039478083||t18964.393974048s|351b6b9ac8c13b0d|271309|rds|vector|||2.42||
+tasmin|stem|de273026532fe6fc|a8ecd6bae6666816|471bcd26d9107b08|899601687||t18964.394003258s|51e81b39c2948c10|270299|rds|vector|||2.44||
+f.data|stem|7e11416a647adb2f|955ffc0ecf8554f2|4cc70dd6fdb17efa|-183701623||t18964.3706940102s|23604dd6b2f2db3c|386|rds|vector|||0.01||
+mod_tmax|stem||66d626198f3dd003|33130b803a3ff901|-1541517198||t18964.4418173104s||0|rds|vector|||0||object LPI.mod not found
 data_lpi|function|3154e8b5e51c1430||||||||||||||
 drawWorld|function|fd6b6efe5d7cb61d||||||||||||||
 temp_extremes|function|4ed31c5cb2cd0dfc||||||||||||||
@@ -31,8 +28,12 @@ merge_values|function|478f3251c04a95ac||||||||||||||
 download_temp|function|d863c94beca9bd1e||||||||||||||
 rasterValue|function|cd28fbaae97968a7||||||||||||||
 path_to_data|function|6823dd686fc3b71c||||||||||||||
-temp_diff|function|03694429c13ac540||||||||||||||
+temp_diff|function|d70b2255e4fee1f6||||||||||||||
 extract_values|function|dfb7f1c162a208fd||||||||||||||
 save_temp_file|function|030f0e4e9be719bf||||||||||||||
-temp_extract|function|7ca15c6a493b631b||||||||||||||
-manuscript|stem|6191b0f7aec20d4e|24ebb279f0747005|0b0d6e1e7c1b52ad|615889701|manuscript/manuscript.html*manuscript/manuscript.Rmd|t18964.4252862292s|293f0ac6dd69c129|1147482|file|vector|||16.289||
+temp_extract|function|c3c7e27d42e8c0cd||||||||||||||
+LPI.coord|stem|9edb258f57c27771|6dc300f3d69b37ee|45dc084e90f18bb4|952875573||t18964.3709225377s|67b7e654eaedfcb0|28548|rds|vector|||0||
+raw_data|stem|1aa9fac8346070f2|699d239eb79af4d8|a3814988facff01d|-979620141||t18964.3709369631s|f7e4a1d04c69356d|1812174|rds|vector|||0.84||
+f.data_character|stem|2b4f47aac83bfe7d|e5d0e994c9c74b62|c699ce1288ea4c18|-880348090||t18964.3709373472s|ae8fc52791e5984a|318|rds|vector|||0||
+raw_data_long_format|stem|a643fabd09a44740|92b5539de99b2112|ff1827416a6fedfa|-1234616345||t18964.4425302249s|fdfe148037ad2199|3163471|rds|vector|||0.51||
+raw_temperature_fold|stem|36bb83125ccc8407|e4caa9452f0f0897|ecd14fdaca2a178a|428630828||t18964.4086955459s||333|rds|vector|||0.01|wget not found|wget call had nonzero exit status
