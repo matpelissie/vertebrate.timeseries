@@ -89,8 +89,11 @@ LPI.mod <- LPI.models %>%
 # raster corrdinates for LPI.mod
 
 
-r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
-r[] <- NA
+# r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+# r[] <- NA
+# raster::writeRaster(r, "data/CHELSA/global/template.tif")
+# unlink("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+r <- raster::raster("data/CHELSA/global/template.tif")
 LPI.coords <- LPI.models %>% dplyr::select(long, lat)
 rast <- raster::rasterize(LPI.coords, r)
 temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
