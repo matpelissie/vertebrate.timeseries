@@ -1,11 +1,6 @@
 ---
 title: "Impact of climate change on terrestrial vertebrates dynamics"
-author: "Mathieu Pélissié"
-date: "02/12/2021"
-bibliography: biblio.bib
-output: 
-  html_document:
-    toc: true
+author: "Mathieu Pélissié, Maëlys Boënnec, Rémi Brosse"
     theme: united
 csl: nature.csl
 ---
@@ -75,7 +70,7 @@ increasing, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope<0)` are decreasing and
 
 ## Methods
 
-
+Worldwide minimum and maximum temperature averaged on a monthly basis were downloaded from the CHELSA climate database (Karger et al. 2017). We focused 
 
 # Population change drivers
 
