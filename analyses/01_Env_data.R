@@ -49,28 +49,32 @@ extract_values <- function (file) {
 # save monthly site temperature in a csv
 save_temp_file <- function (file, temp_sites) {
 
-  readr::write_csv(temp_sites, paste0("data/CHELSA/sites/", temp_name(file), ".csv"))
+  path_to_file <- paste0("data/CHELSA/sites/", temp_name(file), ".csv")
 
-  invisible(NULL)
+  readr::write_csv(temp_sites, path_to_file)
+
+  return(path_to_file)
 
 }
 
 # run download, process, save, and delete loops
 temp_extract <- function (f) {
 
+  files <- NULL
+
   for (i in 1:length(f)){
     download_temp(f[i])
     file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
     temp_sites <- extract_values(file)
-    save_temp_file(file, temp_sites)
+    files[i] <- save_temp_file(file, temp_sites)
     unlink(file)
     gc(verbose = FALSE)
   }
 
-  invisible(NULL)
+  return(files)
 }
 
-temp_extract(f)
+# temp_extract(f)
 
 # merge monthly csv into one
 merge_values <- function (tas) {
@@ -114,11 +118,6 @@ temp_extremes <- function (tas, year) {
   return(temp_extremes)
 }
 
-temp_extremes(tasmax, 1980)
-temp_extremes(tasmax, 2010)
-temp_extremes(tasmin, 1980)
-temp_extremes(tasmin, 2010)
-
 # compute temperature difference between 1980 and 2010 for all sites
 temp_diff <- function () {
 
@@ -137,7 +136,9 @@ temp_diff <- function () {
                   temp_diff_sign_tasmin = "temp_diff_sign")
 
   temp_diff <- temp_diff_tasmax %>%
-    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat), by = "ID")
+    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat), by = "ID") %>%
+    dplyr::rename(long_r = "long",
+                  lat_r = "lat")
   return(temp_diff)
 }
-
+temp_diff <- temp_diff()

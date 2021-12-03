@@ -86,4 +86,23 @@ LPI.mod <- LPI.models %>%
   tidyr::drop_na(slope_p)
 
 
+# raster corrdinates for LPI.mod
+
+
+r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+r[] <- NA
+LPI.coords <- LPI.models %>% dplyr::select(long, lat)
+rast <- raster::rasterize(LPI.coords, r)
+temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
+t <- temp %>%
+  cbind(raster::coordinates(rast)[temp[,2],]) %>%
+  dplyr::select(x,y) %>%
+  dplyr::rename(long_r = "x",
+                lat_r = "y") %>%
+  tibble::as_tibble() %>%
+  bind_cols(LPI.models)
+
+LPI.mod.coords <- left_join(t, temp_diff, by = c("long_r", "lat_r"))
+
+
 
