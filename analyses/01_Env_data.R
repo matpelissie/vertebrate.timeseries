@@ -13,15 +13,14 @@ library(tidyverse)
 
 # read URL paths to data
 f <- read.table("data/CHELSA/envidatS3paths_light_temp.txt") ; f <- as.character(f$V1)
-destfile <- "data/CHELSA/global/"
 
 # coordinates of survey sites
 LPI.coord <- readRDS("data/CHELSA/LPI.coord.rds")
 
 # download a raw temperature file
-download <- function (file) {
+download <- function (URL) {
 
-  download.file(file, destfile = paste0(destfile, strsplit(as.character(file), "/")[[1]][10]),
+  download.file(URL, destfile = paste0("data/CHELSA/global/", strsplit(as.character(URL), "/")[[1]][10]),
                 method = "wget", extra = "-r -p --random-wait")
 
   invisible(NULL)
@@ -59,9 +58,9 @@ save_temp_file <- function (file, temp_sites) {
 # run download, process, save, and delete loops
 temp_extract <- function (f) {
 
-  for (i in 9:length(f)){ # change back to 1
+  for (i in 21:length(f)){ # change back to 1
     download(f[i])
-    file <- list.files(destfile, full.names = TRUE)[1]
+    file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
     temp_sites <- extract_values(file)
     save_temp_file(file, temp_sites)
     unlink(file)
@@ -74,9 +73,13 @@ temp_extract <- function (f) {
 temp_extract(f)
 
 
-merge_values <- function () {
+merge_values <- function (tas) {
 
-  tabs <- list.files("data/CHELSA/sites/", full.names = TRUE)
+  if (!tas %in% c("tasmax","tasmin")) {
+    stop("tas must be either tasmax or tasmin")
+  }
+
+  tabs <- list.files("data/CHELSA/sites", pattern = tas, full.names = TRUE)
 
   tab_i <- readr::read_csv(tabs[1]) %>%
     dplyr::relocate(dplyr::starts_with("tas"), .after = lat)
@@ -91,13 +94,39 @@ merge_values <- function () {
   return(merge)
 }
 
+tasmax <- merge_values("tasmax")
+
+
+tasmax_1980 <- tasmax %>%
+  dplyr::select(dplyr::contains("ID") | dplyr::contains("1980"))
+
+tasmax_1980 <- tasmax_1980 %>%
+  dplyr::mutate(mean_tasmax_1980 = rowMeans(dplyr::select(tasmax_1980, dplyr::contains("1980")), na.rm = TRUE))
+
+tasmax_2010 <- tasmax %>%
+  dplyr::select(dplyr::contains("ID") | dplyr::contains("2010"))
+
+tasmax_2010 <- tasmax_2010 %>%
+  dplyr::mutate(mean_tasmax_2010 = rowMeans(dplyr::select(tasmax_2010, dplyr::contains("2010")), na.rm = TRUE))
+
+tasmax_2010_mean <- tasmax_2010 %>%
+  dplyr::select(dplyr::contains("ID") | dplyr::contains("mean"))
+
+tasmax_mean_diff <- tasmax_1980 %>%
+  dplyr::select(dplyr::contains("ID") | dplyr::contains("mean")) %>%
+  dplyr::left_join(tasmax_2010_mean, by = "ID") %>%
+  dplyr::mutate(tasmax_mean_diff = mean_tasmax_2010 - mean_tasmax_1980)
+
+hist(tasmax_mean_diff$tasmax_mean_diff)
+
+
 temp_average <- function () {
 
 
 }
 
 
-#
+# plot changes
 points<-drawWorld()+
   geom_point(data=t,
              aes(x=long, y=lat, size=temperature),
