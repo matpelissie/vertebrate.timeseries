@@ -193,7 +193,7 @@ temp_extremes <- function (tas,year) {
 }
 
 # compute temperature difference between 1980 and 2010 for all sites
-temp_diff <- function () {
+temp_diff <- function (tasmax, tasmin) {
 
   temp_diff_tasmax <- temp_extremes(tasmax,1980) %>%
     dplyr::left_join(dplyr::select(temp_extremes(tasmax, 2010), -long, -lat), by = "ID") %>%
