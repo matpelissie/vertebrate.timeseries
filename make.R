@@ -5,7 +5,10 @@
 ################################################################################
 
 devtools::install_deps()
-devtools::load_all()
+#devtools::load_all()
 
-rmarkdown::render(here::here("manuscript", "manuscript.Rmd"),
-                  output_dir = here::here("manuscript"))
+# rmarkdown::render(here::here("manuscript", "manuscript.Rmd"),
+#                   output_dir = here::here("manuscript"))
+
+
+tar_make()
