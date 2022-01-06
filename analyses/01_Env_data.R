@@ -143,3 +143,4 @@ temp_diff <- function () {
   return(temp_data)
 }
 temp_data <- temp_diff()
+LPI_env_data <- LPI_env(LPI.mod, temp_data)

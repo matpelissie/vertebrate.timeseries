@@ -286,10 +286,30 @@ LPI_env <- function (LPI.mod, temp_data) {
 
   LPI_env <- dplyr::inner_join(LPI, temp_data_filter, by = "cells")
 
-  return(list(LPI_env, LPI))
+  return(LPI_env)
 
 }
 
-#' Join LPI and temperature dataframes
+#' Population vs. temperature change
 #'
+#' @param LPI_env a tibble gathering LPI population trends and temperaure change
+#'
+#' @return
+#' @export
+#'
+LPI_env_mod <- function(LPI_env){
+
+  LPI_env_filt <- LPI_env_data %>% dplyr::filter(abs(slope)<25)
+    # interpretation very dependent on threshold
+
+  # hist(LPI_env_filt$slope)
+
+  fit <- lm(slope ~ temp_diff_tasmax + temp_diff_tasmin +
+               mean_tasmax_2010 + mean_tasmin_2010, data = LPI_env_filt)
+  summary(fit)
+
+  fit1 <- lm(slope ~ temp_diff_tasmin, data = LPI_env_filt)
+  plot(slope ~ temp_diff_tasmin, data = LPI_env_filt)
+  abline(fit1)
+}
 
