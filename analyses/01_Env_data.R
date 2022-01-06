@@ -41,7 +41,8 @@ extract_values <- function (file) {
                   long = "x",
                   temperature = dplyr::starts_with("CHELSA")) %>%
     dplyr::mutate(temperature = (temperature/10)-273.15) %>%
-    dplyr::rename_with(.fn = ~temp_name(file), .cols = temperature)
+    dplyr::rename_with(.fn = ~temp_name(file), .cols = temperature) %>%
+    dplyr::distinct()
 
   return(temp_sites)
 }
@@ -108,35 +109,35 @@ temp_extremes <- function (tas, year) {
   if (tas_str=="tasmax") ord <- TRUE
   if (tas_str=="tasmin") ord <- FALSE
 
-  temp_extremes <- tas %>%
-    dplyr::select(dplyr::contains("ID") | dplyr::contains("long") |dplyr::contains("lat") | dplyr::contains(as.character(year))) %>%
+  temp_extremes_data <- tas %>%
+    dplyr::select(dplyr::contains("ID") | dplyr::contains("cells") | dplyr::contains("long") |dplyr::contains("lat") | dplyr::contains(as.character(year))) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(rows = list(sort(dplyr::c_across(-c(ID, long, lat)), decreasing = ord ))) %>%
+    dplyr::mutate(rows = list(sort(dplyr::c_across(-c(ID, cells, long, lat)), decreasing = ord ))) %>%
     dplyr::mutate(top_1 = rows[1], top_2 = rows[2], top_3 = rows[3]) %>%
     dplyr::mutate("mean_{tas_str}_{year}" := mean(top_1,top_2,top_3)) %>%
-    dplyr::select(ID, long, lat, dplyr::contains("mean"))
-  return(temp_extremes)
+    dplyr::select(ID, cells, long, lat, dplyr::contains("mean"))
+  return(temp_extremes_data)
 }
 
 # compute temperature difference between 1980 and 2010 for all sites
 temp_diff <- function () {
 
   temp_diff_tasmax <- temp_extremes(tasmax,1980) %>%
-    dplyr::left_join(dplyr::select(temp_extremes(tasmax, 2010), -long, -lat), by = "ID") %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmax, 2010), -long, -lat, -cells), by = "ID") %>%
     dplyr::mutate(temp_diff = mean_tasmax_2010 - mean_tasmax_1980) %>%
     dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
     dplyr::rename(temp_diff_tasmax = "temp_diff",
                   temp_diff_sign_tasmax = "temp_diff_sign")
 
   temp_diff_tasmin <- temp_extremes(tasmin,1980) %>%
-    dplyr::left_join(dplyr::select(temp_extremes(tasmin, 2010), -long, -lat), by = "ID") %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmin, 2010), -long, -lat, -cells), by = "ID") %>%
     dplyr::mutate(temp_diff = mean_tasmin_2010 - mean_tasmin_1980) %>%
     dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
     dplyr::rename(temp_diff_tasmin = "temp_diff",
                   temp_diff_sign_tasmin = "temp_diff_sign")
 
   temp_data <- temp_diff_tasmax %>%
-    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat), by = "ID") %>%
+    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat, -cells), by = "ID") %>%
     dplyr::rename(long_r = "long",
                   lat_r = "lat")
   return(temp_data)

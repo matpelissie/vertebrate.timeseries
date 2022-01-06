@@ -33,8 +33,8 @@ drawWorld <- function() {
   g1<-g1+theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank(),
                panel.background=element_rect(fill="white", colour="white"), axis.line=element_line(colour="white"),
                axis.ticks=element_blank(), axis.text.x=element_blank(), axis.text.y=element_blank())
-  return(g1)
 
+  return(g1)
 }
 
 
@@ -50,8 +50,8 @@ drawWorld <- function() {
 rasterValue <- function(ras_dat,lpi_dat){
 
   new_dat <- left_join(lpi_dat,ras_dat,by=c("lat","long"))
-  return (new_dat)
 
+  return (new_dat)
 }
 
 
@@ -65,12 +65,15 @@ rasterValue <- function(ras_dat,lpi_dat){
 #'
 download_temp <- function (URL) {
 
-  download.file(URL, destfile = paste0("data/CHELSA/global/", strsplit(as.character(URL), "/")[[1]][10]),
+  download.file(URL, destfile = paste0("data/CHELSA/global/",
+                                       strsplit(as.character(URL), "/")[[1]][10]),
                 method = "wget",
-                 extra = "-r -p --random-wait")
+                extra = "-r -p --random-wait")
 
   invisible(NULL)
 }
+
+
 
 #' Define temperature column name
 #'
@@ -82,11 +85,12 @@ download_temp <- function (URL) {
 temp_name <- function (file) paste(strsplit(file, "_")[[1]][2:4], collapse = ".")
 
 
+
 #' Extract temperature values from survey sites only
 #'
 #' @param file a string corresponding to the path of a downloaded temperature file
 #'
-#' @return a data.frame with average temperature from survey sites only
+#' @return A data.frame with average temperature from survey sites only
 #' @export
 #'
 extract_values <- function (file) {
@@ -105,14 +109,16 @@ extract_values <- function (file) {
   return(temp_sites)
 }
 
+
+
 #' Save monthly site temperature in a csv
 #'
 #' @param file a string corresponding to the path of a downloaded temperature file
 #' @param temp_sites the corresponding data frame with average temperature from survey sites only
 #'
-#' @return No return value.
+#' @return A string corresponding to the path of the csv
 #' @export
-
+#'
 save_temp_file <- function (file, temp_sites) {
 
   path_to_file <- paste0("data/CHELSA/sites/", temp_name(file), ".csv")
@@ -120,17 +126,18 @@ save_temp_file <- function (file, temp_sites) {
   readr::write_csv(temp_sites, path_to_file)
 
   return(path_to_file)
-
 }
+
+
+
 #' Run download, process, save, and delete loops
 #'
 #' @param f a list of strings corresponding to URLs of files to download
 #'
-#' @return No return value.
+#' @return A list of strings corresponding to the path to the csv files generated
 #' @export
 #'
 temp_extract <- function (f) {
-
 
   files <- NULL
 
@@ -147,11 +154,14 @@ temp_extract <- function (f) {
 }
 
 
+
 #' Merge monthly csv into one
 #'
-#' @param tas a list of strings corresponding to URLs of files to download
+#' @param tas a string either "tasmin" or "tasmax" to indicate if min or max
+#' month temperatures to merge
 #'
-#' @return A dataframe
+#' @return A tibble with site IDs, coordinates and min or max month temperature
+#' for each site and years
 #' @export
 #'
 merge_values <- function (tas) {
@@ -176,75 +186,110 @@ merge_values <- function (tas) {
 }
 
 
-# average the 3 highest or lowest month temperatures
+
+#' Average the 3 highest or lowest month temperatures
+#'
+#' @param tas a tibble obtained as output of the merge_values function with
+#' either maximum or minimum month temperature for each site and years
+#' @param year an integer corresponding to the year for which to average
+#' extreme month temperatures
+#'
+#' @return A tibble with site IDs, coordinates and mean of extreme month
+#' temperatures for the year defined
+#' @export
+#'
 temp_extremes <- function (tas,year) {
 
   if (deparse(quote(tas))=="tasmax") ord <- TRUE
   if (deparse(quote(tas))=="tasmin") ord <- FALSE
 
-  temp_extremes <- tas %>%
-    dplyr::select(dplyr::contains("ID") | dplyr::contains("long") |dplyr::contains("lat") | dplyr::contains(as.character(year))) %>%
+  temp_extremes_data <- tas %>%
+    dplyr::select(dplyr::contains("ID") | dplyr::contains("cells") | dplyr::contains("long") |
+                    dplyr::contains("lat") | dplyr::contains(as.character(year))) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(rows = list(sort(dplyr::c_across(-c(ID, long, lat)), decreasing = ord))) %>%
+    dplyr::mutate(rows = list(sort(dplyr::c_across(-c(ID, cells, long, lat)), decreasing = ord))) %>%
     dplyr::mutate(top_1 = rows[1], top_2 = rows[2], top_3 = rows[3]) %>%
     dplyr::mutate("mean_tas_{year}" := mean(top_1,top_2,top_3)) %>%
-    dplyr::select(ID, long, lat, dplyr::contains("mean"))
-  return(temp_extremes)
+    dplyr::select(ID, cells, long, lat, dplyr::contains("mean"))
+
+  return(temp_extremes_data)
 }
 
-# compute temperature difference between 1980 and 2010 for all sites
+
+
+#' Compute temperature difference between 1980 and 2010 for all sites
+#'
+#' @param tasmax a tibble obtained as output of the temp_extremes function with
+#' site IDs, coordinates and mean of the three highest month temperatures
+#' @param tasmin a tibble obtained as output of the temp_extremes function with
+#' site IDs, coordinates and mean of the three lowest month temperatures
+#'
+#' @return A tibble with site IDs, coordinates, averaged minimum and maximum
+#' month temperature change between 1980 and 2010
+#' @export
+#'
 temp_diff <- function (tasmax, tasmin) {
 
   temp_diff_tasmax <- temp_extremes(tasmax,1980) %>%
-    dplyr::left_join(dplyr::select(temp_extremes(tasmax, 2010), -long, -lat), by = "ID") %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmax, 2010), -long, -lat, -cells), by = "ID") %>%
     dplyr::mutate(temp_diff = mean_tasmax_2010 - mean_tasmax_1980) %>%
     dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
     dplyr::rename(temp_diff_tasmax = "temp_diff",
                   temp_diff_sign_tasmax = "temp_diff_sign")
 
   temp_diff_tasmin <- temp_extremes(tasmin,1980) %>%
-    dplyr::left_join(dplyr::select(temp_extremes(tasmin, 2010), -long, -lat), by = "ID") %>%
+    dplyr::left_join(dplyr::select(temp_extremes(tasmin, 2010), -long, -lat, -cells), by = "ID") %>%
     dplyr::mutate(temp_diff = mean_tasmin_2010 - mean_tasmin_1980) %>%
     dplyr::mutate(temp_diff_sign = sign(temp_diff)) %>%
     dplyr::rename(temp_diff_tasmin = "temp_diff",
                   temp_diff_sign_tasmin = "temp_diff_sign")
 
-  temp_diff <- temp_diff_tasmax %>%
-    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat), by = "ID")
-  return(temp_diff)
+  temp_data <- temp_diff_tasmax %>%
+    dplyr::left_join(dplyr::select(temp_diff_tasmin, -long, -lat, -cells), by = "ID") %>%
+    dplyr::rename(long_r = "long",
+                  lat_r = "lat")
+
+  return(temp_data)
+}
+
+
+
+#' Join LPI and temperature dataframes
+#'
+#' @param LPI.mod a tibble with LPI data for selected sites
+#' @param temp_data a tibble with temperature data and change between 1980 and
+#' 2010 for selected sites
+#'
+#' @return A tibble gathering LPI population trends and temperaure change
+#' @export
+#'
+LPI_env <- function (LPI.mod, temp_data) {
+
+  # r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+  # r[] <- NA
+  # raster::writeRaster(r, "data/CHELSA/template.tif")
+  # unlink("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
+  r <- raster::raster("data/CHELSA/template.tif")
+  LPI.coords <- LPI.mod %>% dplyr::select(long, lat)
+  rast <- raster::rasterize(LPI.coords, r)
+  temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
+  LPI <- temp %>%
+    cbind(raster::coordinates(rast)[temp[,2],]) %>%
+    dplyr::select(x, y, cells) %>%
+    dplyr::rename(long_r = "x",
+                  lat_r = "y") %>%
+    tibble::as_tibble() %>%
+    bind_cols(LPI.mod)
+
+  temp_data_filter <- dplyr::select(temp_data, -ID, -long_r, -lat_r) %>%
+    dplyr::distinct()
+
+  LPI_env <- dplyr::inner_join(LPI, temp_data_filter, by = "cells")
+
+  return(list(LPI_env, LPI))
+
 }
 
 #' Join LPI and temperature dataframes
 #'
-#' @param LPI.coords a tibble with LPI data for retained sites
-#' @param temp_diff a tibble with temperature data and change between 1980 and 2010 for retained sites
-#'
-#' @return A tibble
-#' @export
-#'
-
-
-LPI_env <- function (pop_mod, temp_data) {
-
-  # r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
-  # r[] <- NA
-  # raster::writeRaster(r, "data/CHELSA/template.t"if)
-  # unlink("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
-  r <- raster::raster("data/CHELSA/template.tif")
-  coords <- pop_mod %>% dplyr::select(long, lat)
-  rast <- raster::rasterize(coords, r)
-  temp <- raster::extract(rast, coords, df = TRUE, cellnumber=TRUE)
-  t <- temp %>%
-    cbind(raster::coordinates(rast)[temp[,2],]) %>%
-    dplyr::select(x,y) %>%
-    dplyr::rename(long_r = "x",
-                  lat_r = "y") %>%
-    tibble::as_tibble() %>%
-    bind_cols(pop_mod)
-
-  LPI_env <- left_join(t, temp_data[2:11], by = c("long_r", "lat_r"))
-
-  return(list(LPI_env,t))
-
-}
 
