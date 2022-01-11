@@ -1,5 +1,5 @@
 ---
-title: "Impact of climate change on terrestrial vertebrates dynamics"
+title: "Impact of temperature change on terrestrial vertebrates dynamics"
 author: "Mathieu Pélissié, Maëlys Boënnec, Rémi Brosse"
     theme: united
 csl: nature.csl
