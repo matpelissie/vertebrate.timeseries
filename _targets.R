@@ -7,6 +7,7 @@ library(tarchetypes)
 path_to_data <- function() {
   "data/LPIdata_Feb2016.csv"
 }
+
 list(
   tar_target(
     raw_data_file, path_to_data(), format = "file"
