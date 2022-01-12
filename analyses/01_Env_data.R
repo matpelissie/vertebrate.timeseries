@@ -30,7 +30,7 @@ download_temp <- function (URL) {
 temp_name <- function (file) paste(strsplit(file, "_")[[1]][2:4], collapse = ".")
 
 # extract only temperature values from survey sites
-extract_values <- function (file) {
+extract_values <- function (file, LPI.coord) {
 
   r <- raster::raster(file)
   temp <- raster::extract(r, LPI.coord, df = TRUE, cellnumber=TRUE)
@@ -59,14 +59,14 @@ save_temp_file <- function (file, temp_sites) {
 }
 
 # run download, process, save, and delete loops
-temp_extract <- function (f) {
+temp_extract <- function (f, LPI.coord) {
 
   files <- NULL
 
   for (i in 1:length(f)){
     download_temp(f[i])
     file <- list.files("data/CHELSA/global", full.names = TRUE)[1]
-    temp_sites <- extract_values(file)
+    temp_sites <- extract_values(file, LPI.coord)
     files[i] <- save_temp_file(file, temp_sites)
     unlink(file)
     gc(verbose = FALSE)
@@ -143,4 +143,28 @@ temp_diff <- function () {
   return(temp_data)
 }
 temp_data <- temp_diff()
-LPI_env_data <- LPI_env(LPI.mod, temp_data)
+
+LPI_temp <- function (LPI.mod, temp_data) {
+
+  r <- raster::raster("data/CHELSA/template.tif")
+  LPI.coords <- LPI.mod %>% dplyr::select(long, lat)
+  rast <- raster::rasterize(LPI.coords, r)
+  temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
+  LPI <- temp %>%
+    cbind(raster::coordinates(rast)[temp[,2],]) %>%
+    dplyr::select(x, y, cells) %>%
+    dplyr::rename(long_r = "x",
+                  lat_r = "y") %>%
+    tibble::as_tibble() %>%
+    bind_cols(LPI.mod)
+
+  temp_data_filter <- dplyr::select(temp_data, -ID, -long_r, -lat_r) %>%
+    dplyr::distinct()
+
+  LPI_temp_data <- dplyr::inner_join(LPI, temp_data_filter, by = "cells")
+
+  return(LPI_temp_data)
+
+}
+
+LPI_temp_data <- LPI_temp(LPI.mod, temp_data)

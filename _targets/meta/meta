@@ -1,27 +1,47 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|iteration|parent|children|seconds|warnings|error
-raw_data_file|stem|0ad652d2799d4090|9aaa295786f335fd|b841e6fac8e3c456|2110307107|data/LPIdata_Feb2016.csv|t18963.3576362675s|6c5932b84e591494|9959028|file|vector|||0||
-map_color|stem|77fc7fbe0b1b5778|ec28b7041862c620|a3dad144c40657ed|1861074964||t18964.5135427747s|1f9515807f9af984|69|rds|vector|||0||
-f.data|stem|7e11416a647adb2f|955ffc0ecf8554f2|4cc70dd6fdb17efa|-183701623||t18964.5135429249s|23604dd6b2f2db3c|386|rds|vector|||0||
 LPI.mod|stem||83537a6dc6ebd15c|f6232dc7e0a0dafe|-1883193134||t18964.5135430521s||0|rds|vector|||0.01||object data.mod not found
-tasmin|stem|de273026532fe6fc|a8ecd6bae6666816|471bcd26d9107b08|899601687||t18964.5144368097s|51e81b39c2948c10|270299|rds|vector|||2.47||
-LPI.coord|stem|9edb258f57c27771|6dc300f3d69b37ee|45dc084e90f18bb4|952875573||t18964.5144372917s|67b7e654eaedfcb0|28548|rds|vector|||0||
-tasmax|stem|e223a023ee4eadc7|3a40735af2f86cd1|471bcd26d9107b08|-1039478083||t18964.5144648974s|351b6b9ac8c13b0d|271309|rds|vector|||2.32||
-raw_data|stem|1aa9fac8346070f2|699d239eb79af4d8|a3814988facff01d|-979620141||t18964.5144758619s|f7e4a1d04c69356d|1812174|rds|vector|||0.55||
-f.data_character|stem|2b4f47aac83bfe7d|e5d0e994c9c74b62|c699ce1288ea4c18|-880348090||t18964.5144761736s|ae8fc52791e5984a|318|rds|vector|||0||
-raw_data_long_format|stem|a643fabd09a44740|92b5539de99b2112|ff1827416a6fedfa|-1234616345||t18964.5145280267s|fdfe148037ad2199|3163471|rds|vector|||0.6||
-raw_temperature_fold|stem||e4caa9452f0f0897|82a6dfc056a5fee1|428630828||t18964.5145286716s||0|file|vector|||0.01|wget not found|wget call had nonzero exit status
 mod_tmin|stem||7c6c6f6a69ef9f13|2355b44210afd0b4|1705976389||t18964.5290255489s||0|rds|vector|||0.02||object LPI.mod not found
-data_lpi|function|3154e8b5e51c1430||||||||||||||
-drawWorld|function|fd6b6efe5d7cb61d||||||||||||||
-LPI_env|function|fe560c10fb915313||||||||||||||
-temp_extremes|function|4ed31c5cb2cd0dfc||||||||||||||
-temp_name|function|913d2133dedaf225||||||||||||||
-merge_values|function|478f3251c04a95ac||||||||||||||
-download_temp|function|d863c94beca9bd1e||||||||||||||
+map_color|stem|77fc7fbe0b1b5778|ec28b7041862c620|a3dad144c40657ed|1861074964||t18963.7041336964s|991ef619886270ed|69|rds|vector|||0||
+f.data|stem|7e11416a647adb2f|955ffc0ecf8554f2|4cc70dd6fdb17efa|-183701623||t18964.4131517826s|c047e2a96adccb67|386|rds|vector|||0||
+LPI.coord|stem|9edb258f57c27771|6dc300f3d69b37ee|45dc084e90f18bb4|952875573||t18964.4131502549s|3f08668e33bab7dd|28548|rds|vector|||0||
+f.data_character|stem|2b4f47aac83bfe7d|e5d0e994c9c74b62|c699ce1288ea4c18|-880348090||t18964.4131517826s|f008763eb0bfd232|318|rds|vector|||0||
+temp_extremes|function|cf74b539d3d37331||||||||||||||
+temp_extremes2|function|1656db2a8adc3536||||||||||||||
+raw_temperature_fold|stem||5f2da00786e5abe2|fd3ecbc63f59079a|428630828||t18964.5145286716s||0|file|vector|||0.008||wget call had nonzero exit status
+LPI_env|function|d1a544b35616b9d1||||||||||||||
+LPI_env_mod|function|3cadf43cb61c16bd||||||||||||||
 rasterValue|function|cd28fbaae97968a7||||||||||||||
-path_to_data|function|6823dd686fc3b71c||||||||||||||
-temp_diff|function|c526486730af46d4||||||||||||||
-extract_values|function|dfb7f1c162a208fd||||||||||||||
+raw_data_file|stem|0ad652d2799d4090|9aaa295786f335fd|e70f61857814a1a9|2110307107|/home/mathieu.pelissie/Documents/Form_rech_repro/vertebrate.timeseries/data/LPIdata_Feb2016.csv|t18963.3600486959s|5e7b93565a311527|9959028|file|vector|||0.006||
+raw_data|stem|11d1d7fe85368313|092e0e1bcc8928a2|0a5c5f70a0ed8a08|-979620141||t19004.4805873088s|26620f1b0707e388|1812174|rds|vector|||0.165||
+raw_data_long_format|stem|5c7652ee6f907b09|92b5539de99b2112|aa72c979008b0803|-1234616345||t19004.4806185125s|b198432bc88a5c09|3163471|rds|vector|||0.369||
+raw_temp_files|stem|2be7f061dd9ba0fc|5f2da00786e5abe2|7b2cfc32845c9090|-1647295898|data/CHELSA/sites/tasmax.01.1980.csv*data/CHELSA/sites/tasmax.01.2010.csv*data/CHELSA/sites/tasmax.02.1980.csv*data/CHELSA/sites/tasmax.02.2010.csv*data/CHELSA/sites/tasmax.03.1980.csv*data/CHELSA/sites/tasmax.03.2010.csv*data/CHELSA/sites/tasmax.04.1980.csv*data/CHELSA/sites/tasmax.04.2010.csv*data/CHELSA/sites/tasmax.05.1980.csv*data/CHELSA/sites/tasmax.05.2010.csv*data/CHELSA/sites/tasmax.06.1980.csv*data/CHELSA/sites/tasmax.06.2010.csv*data/CHELSA/sites/tasmax.07.1980.csv*data/CHELSA/sites/tasmax.07.2010.csv*data/CHELSA/sites/tasmax.08.1980.csv*data/CHELSA/sites/tasmax.08.2010.csv*data/CHELSA/sites/tasmax.09.1980.csv*data/CHELSA/sites/tasmax.09.2010.csv*data/CHELSA/sites/tasmax.10.1980.csv*data/CHELSA/sites/tasmax.10.2010.csv*data/CHELSA/sites/tasmax.11.1980.csv*data/CHELSA/sites/tasmax.11.2010.csv*data/CHELSA/sites/tasmax.12.1980.csv*data/CHELSA/sites/tasmax.12.2010.csv*data/CHELSA/sites/tasmin.01.1980.csv*data/CHELSA/sites/tasmin.01.2010.csv*data/CHELSA/sites/tasmin.02.1980.csv*data/CHELSA/sites/tasmin.02.2010.csv*data/CHELSA/sites/tasmin.03.1980.csv*data/CHELSA/sites/tasmin.03.2010.csv*data/CHELSA/sites/tasmin.04.1980.csv*data/CHELSA/sites/tasmin.04.2010.csv*data/CHELSA/sites/tasmin.05.1980.csv*data/CHELSA/sites/tasmin.05.2010.csv*data/CHELSA/sites/tasmin.06.1980.csv*data/CHELSA/sites/tasmin.06.2010.csv*data/CHELSA/sites/tasmin.07.1980.csv*data/CHELSA/sites/tasmin.07.2010.csv*data/CHELSA/sites/tasmin.08.1980.csv*data/CHELSA/sites/tasmin.08.2010.csv*data/CHELSA/sites/tasmin.09.1980.csv*data/CHELSA/sites/tasmin.09.2010.csv*data/CHELSA/sites/tasmin.10.1980.csv*data/CHELSA/sites/tasmin.10.2010.csv*data/CHELSA/sites/tasmin.11.1980.csv*data/CHELSA/sites/tasmin.11.2010.csv*data/CHELSA/sites/tasmin.12.1980.csv*data/CHELSA/sites/tasmin.12.2010.csv|t19004.56330364s|6775e4ac725c7db4|22708755|file|vector|||5198.932||
+data_long_format_col|stem|01364a72a82f0803|f4bea018755dbc7e|dd09b07c09643ee4|1140439777||t19004.5633580847s|c8ac303b3a0e9702|3316375|rds|vector|||0.044||
+data_lpi|function|aff2a3b73c0f4765||||||||||||||
+drawWorld|function|fd6b6efe5d7cb61d||||||||||||||
+LPI_temp_model|function|58b6b6764af05ebf||||||||||||||
+temp_max|function|f09c7e614e1f659d||||||||||||||
+temp_min|function|2cd19f0e3bfa3da9||||||||||||||
+LPI_temp|function|82549e7e8c08aad7||||||||||||||
+temp_name|function|913d2133dedaf225||||||||||||||
+merge_values|function|3ab6047a380733b0||||||||||||||
+download_temp|function|6544dcf7d9f88d65||||||||||||||
+path_to_data|function|3197c6e0133c815a||||||||||||||
+temp_diff|function|e75556eaa7dff5f8||||||||||||||
+extract_values|function|632b4f7aa735a332||||||||||||||
 save_temp_file|function|44128e397640839b||||||||||||||
-temp_extract|function|d3b753dd8ecd4f7f||||||||||||||
-temp_data|stem||f9242deef2282be5|afd5b7f689a2cf20|53087022||t18964.5523196041s||0|rds|vector|||0.06||Problem with mutate column rows.34mi39m rows  listsortdplyrc_acrosscID, long, lat, decreasing  ord.31mx39m object ord not found34mi39m The error occurred in row 1.
+temp_extract|function|72010aa6c87c01a3||||||||||||||
+tasmax|stem|a5489129e735b121|973f4defc11f1018|ea4ba82058df5c09|-1039478083||t19004.7250047862s|86989b654cec01a9|271308|rds|vector|||0.763||
+tasmin|stem|f594cb47f2a7a297|43445d6a940132c3|ea4ba82058df5c09|899601687||t19004.7250126103s|d45967bd53eeed49|270298|rds|vector|||0.637||
+data_long|stem|60015839542344a6|53931a1a9ab84bc2|c17489f40a65a80c|1053362806||t19004.725049231s|975109992f10664b|1443446|rds|vector|||0.351||
+data_coord|stem|d241d10f4dcb0204|1883549f141d517f|c67a5ce90c15813b|1701858071||t19004.725049694s|49cf3316758595fa|116163|rds|vector|||0.002||
+temp_data|stem|73ab71ef60ba4b5c|f9242deef2282be5|eb08eaeb3c94168e|53087022||t19004.7250882591s|cd49997378a9d88e|147003|rds|vector|||3.311||
+data_models|stem|5b87913b30bb345d|58fea4f8f4acee6f|1c21944f980c6fbb|703555315||t19004.7251803432s|ae3927863f163c3a|17626554|rds|vector|||3.973|essentially perfect fit summary may be unreliable|
+data_mod|stem|5ba438e66f385302|88c194f23a39d84c|b3448638457cb80b|61400497||t19004.7252273344s|c879e5d8821dadd5|17580392|rds|vector|||0.004||
+LPI_temp_data|stem|643c6eef9492b7fc|cec1e3e9577abe9c|dd1a977b30914e6e|1003792349||t19004.7255338647s|29bee8664ec1eff7|16849767|rds|vector|||22.407||
+mod_class|stem|30236e1961647544|208e1a8dd29a5070|aba9a2d1d296129c|566978094||t19004.7255810411s|e1f24edbedc0637c|17686202|rds|vector|||0.002||
+mod_biome|stem|2f30f214cde5236a|24bdeced7349f40a|aa77daf98cf96b64|426953313||t19004.7256290044s|13f9ade3315920c0|17692160|rds|vector|||0.005||
+map_trends|stem|f3c16f328bca636b|3c202101461a3eda|afe916d59e5f5758|-2080286446||t19004.7257090514s|cf3e0431a6f1e3e6|44500145|rds|vector|||0.038||
+models|stem|48657736dd3c1b7b|d80c5202207de453|6b2612112ae786cb|-252836656||t19004.7257102551s|f586e7aff6cad421|396|rds|vector|||0.004||
+p_mod_class|stem|3a0189598e1294fa|b268e591335e53ca|8cba306a1279a7c0|238201203||t19004.7257103014s|7e02ad38317bcde4|55|rds|vector|||0.001||
+p_mod_biome|stem|c2537ab9289c73bc|fa0800ba874eba95|8a4e8c9c14be12a1|1940564402||t19004.7257103477s|7e02ad38317bcde4|55|rds|vector|||0||
+manuscript|stem||24ebb279f0747005|f1c155a274973e0b|615889701||t19004.725711046s||0|file|vector|||0.055||Parser error while parsing a block mapping at line 1, column 1 did not find expected key at line 3, column 5

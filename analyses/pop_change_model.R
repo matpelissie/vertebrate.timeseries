@@ -7,7 +7,7 @@ source(here::here("R","data_LPI_treatment.R"))
 library(tidyverse)
 
 # Load data ---------------------------------------------------------------
-LPI <- data_lpi()
+LPI <- data_lpi(here::here("data","LPIdata_Feb2016.csv"))
 
 # clean names
 LPI <- LPI  %>%
@@ -47,7 +47,7 @@ LPI.long <- LPI.long %>%
          minyear = min(year),
          maxyear = max(year),
          lengthyear = maxyear - minyear) %>%
-  dplyr::filter(minyear <= 1980) %>%
+  dplyr::filter(minyear <= 1980, maxyear>=2010) %>%
   dplyr::ungroup()
 
 
@@ -84,34 +84,4 @@ LPI.models <- LPI.long %>%
 LPI.mod <- LPI.models %>%
   tidyr::drop_na(slope) %>%
   tidyr::drop_na(slope_p)
-
-
-# raster coordinates for LPI.mod --------------------------------------------
-
-LPI_env <- function (LPI.mod, temp_data) {
-
-  # r <- raster::raster("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
-  # r[] <- NA
-  # raster::writeRaster(r, "data/CHELSA/template.t"if)
-  # unlink("data/CHELSA/global/CHELSA_tasmax_01_1980_V.2.1.tif")
-  r <- raster::raster("data/CHELSA/template.tif")
-  LPI.coords <- LPI.mod %>% dplyr::select(long, lat)
-  rast <- raster::rasterize(LPI.coords, r)
-  temp <- raster::extract(rast, LPI.coords, df = TRUE, cellnumber=TRUE)
-  t <- temp %>%
-    cbind(raster::coordinates(rast)[temp[,2],]) %>%
-    dplyr::select(x, y, cells) %>%
-    dplyr::rename(long_r = "x",
-                  lat_r = "y") %>%
-    tibble::as_tibble() %>%
-    bind_cols(LPI.mod)
-
-  temp_data_filter <- dplyr::select(temp_data, -ID, -long_r, -lat_r) %>%
-    dplyr::distinct()
-
-  LPI_env <- dplyr::inner_join(t, temp_data_filter, by = "cells")
-
-  return(LPI_env)
-
-}
 
