@@ -337,3 +337,32 @@ LPI_temp_model <- function(LPI_temp_data){
   return(summ)
 }
 
+#' Map of temperatures
+#'
+#' @param temp_var a string corresponding to the temperature variable to display
+#' @param LPI_temp_data a tibble gathering LPI population trends and temperaure change
+#'
+#' @return A world map with the chosen temperature variable displayed
+#' @export
+#'
+
+map_temp <- function(temp_var, LPI_temp_data){
+
+  if (temp_var == "mean_tasmin_1980") title <- "Figure 2: Coldest minimal temperatures in 1980."
+  if (temp_var == "mean_tasmax_1980") title <- "Figure 3: Hottest maximal temperatures in 1980."
+  if (temp_var == "temp_diff_tasmin") title <- "Figure 4: Change in coldest minimal temperatures between 1980 and 2010."
+  if (temp_var == "temp_diff_tasmax") title <- "Figure 5: Change in hottest maximal temperatures between 1980 and 2010."
+
+
+  drawWorld()+
+    geom_point(data = LPI_temp_data,
+               aes(x = long, y = lat, color = get(temp_var)),
+               alpha = I(0.7))+
+    scale_colour_gradient2(low = "blue", high = "red") +
+    labs(color = "Temperature (°C)") +
+    theme(plot.title = element_text(size = 12, face = "bold.italic"),
+          legend.position = "bottom") +
+    guides(size = "none") +
+    labs(title = title)
+
+}

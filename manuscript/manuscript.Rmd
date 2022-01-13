@@ -1,8 +1,9 @@
 ---
 title: "Impact of temperature change on terrestrial vertebrates dynamics"
 author: "Mathieu Pélissié, Maëlys Boënnec, Rémi Brosse"
-    theme: united
+theme: united
 csl: nature.csl
+bibliography: vertebrate.timeseries.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -11,13 +12,10 @@ library(targets)
 ```
 
 ```{r, include=FALSE}
-#load targets
 LPI.long <- tar_read(data_long)
 LPI.mod <- tar_read(data_mod)
 map_trends <- tar_read(map_trends)
-mod_biome <- tar_read(mod_biome)
 p_mod_biome <- tar_read(p_mod_biome)
-mod_class <- tar_read(mod_class)
 p_mod_class <- tar_read(p_mod_class)
 ```
 
@@ -32,7 +30,7 @@ as "losers" species in total [@dornelas_balance_2019]. These last results have
 mainly been documented through the BioTIME database [@dornelas_biotime_2018].
 In this report, we propose to re-evaluate this through the Living Planet 
 Database. We also aim to investigate whether  population  dynamics are
-influenced  by  climate change.
+influenced  by  minimal vs. maximal temperature change.
 
 
 # Population changes
@@ -71,22 +69,36 @@ increasing, `r sum(LPI.mod$slope_p<0.05 & LPI.mod$slope<0)` are decreasing and
 
 ## Methods
 
-Worldwide minimum and maximum temperature averaged on a monthly basis were downloaded from the CHELSA climate database (Karger et al. 2017). We focused 
+Worldwide minimum and maximum temperature averaged on a monthly basis were downloaded from the CHELSA climate database [@karger_climatologies_2017]. For each site with population survey, we focused on coldest minimal and hottest maximal temperatures by averaging the three lowest minimal and highest maximal month temperature values, respectively. This was done for the years 1980 and 2010 to distinguish potential effects of maximum vs. minimum temperature change.
+
+```{r, echo=FALSE}
+tar_read(map_temp_min)
+tar_read(map_temp_max)
+tar_read(map_temp_diff_min)
+tar_read(map_temp_diff_max)
+```
 
 # Population change drivers
 
 ## Biogeographical drivers (biome and class impacts).
 
-We found biome signal among terrestrial vertebrates (p-value=`r p_mod_biome``),
+We found biome signal among terrestrial vertebrates (p-value = `r p_mod_biome``),
 the results are presented below.
 
 ```{r, echo=FALSE}
-summary(mod_biome)
+summary(tar_read(mod_biome))
 ```
 
-Surprisingly, no impact of the class belonging has been found (p-value=`r p_mod_class`).
+Surprisingly, no impact of the class belonging has been found (p-value = `r p_mod_class`).
 
 ## Climate change impacts
 
+A multiple regression analysis was performed to determine whether some of the four temperature variables would be correlated with population trends. The results are presented below.
+
+```{r, echo=FALSE}
+tar_read(models)
+```
+
+Although the rate of change in coldest minimal temperatures seems to have a negative effect on population trends, this effect is mainly driven by some extreme trends without which the interpretation of the results changes dramatically.
 
 # References

@@ -9,15 +9,15 @@ path_to_data <- function() {
   # "data/LPIdata_Feb2016.csv"
 }
 list(
-  tar_target(
-    raw_data_file, path_to_data(), format = "file"
+  tar_target(raw_data_file,
+             path_to_data(), format = "file"
   ), # Define data path
 
-  tar_target(raw_data, data_lpi(raw_data_file)
+  tar_target(raw_data,
+             data_lpi(raw_data_file)
   ), # Read the data, return a data.frame
 
-  tar_target(
-    raw_data_long_format,
+  tar_target(raw_data_long_format,
         raw_data %>%
         dplyr::filter(Class == "Mammalia" | Class == "Amphibia" | Class == "Aves" | Class == "Reptilia") %>%
         dplyr::rename(lat = 'Decimal Latitude',
@@ -27,20 +27,12 @@ list(
         dplyr::mutate(year = as.numeric(year))
   ), # Transform from wide to long format
 
-  tar_target(
-    data_long_format_col,
+  tar_target(data_long_format_col,
         raw_data_long_format%>%
         dplyr::mutate(species = paste(Genus, Species))
   ), # Create a new column for species
 
-  tar_target(
-    data_coord,
-        data_long_format_col %>%
-        dplyr::select(lat,long)
-  ), # Survey coordinates
-
-  tar_target(
-    data_long,
+  tar_target(data_long,
              data_long_format_col%>%
         tidyr::drop_na(pop) %>%
         dplyr::group_by(id) %>%
@@ -52,8 +44,7 @@ list(
         dplyr::ungroup()
   ), # Drop NAs and calculate length of monitoring
 
-  tar_target(
-    data_models,
+  tar_target(data_models,
              data_long %>%
     group_by(biome, system, country, Class, species, lengthyear, meanpop, lat, long, id) %>%
     do(mod = lm(pop ~ year, data = .)) %>%
@@ -77,20 +68,18 @@ list(
            long = long)
   ), # Linear models of abundance trends over time for each population and extract model coefficients
 
-  tar_target(
-    data_mod,
+  tar_target(data_mod,
              data_models %>%
                tidyr::drop_na(slope) %>%
                tidyr::drop_na(slope_p)
   ), # Count trends
 
-  tar_target(
-    map_color,
+  tar_target(map_color,
              c('#abdda4','#fdae61')
   ), # Color for mapping
 
-  tar_target(
-    map_trends, drawWorld()+
+  tar_target(map_trends,
+      drawWorld()+
       geom_point(data = data_mod,
                  aes(x = long, y = lat, color = slope<0, size = abs(slope)),
                  alpha = I(0.7))+
@@ -167,11 +156,27 @@ list(
   #            anova(mod_tmin)[1,5]
   # ), # Tmin impact
 
+  tar_target(map_temp_min,
+             map_temp("mean_tasmin_1980", LPI_temp_data)
+  ), # Map of minimal temperatures
+
+  tar_target(map_temp_max,
+             map_temp("mean_tasmax_1980", LPI_temp_data)
+  ), # Map of maximal temperatures
+
+  tar_target(map_temp_diff_min,
+             map_temp("temp_diff_tasmin", LPI_temp_data)
+  ), # Map of minimal temperatures change
+
+  tar_target(map_temp_diff_max,
+             map_temp("temp_diff_tasmax", LPI_temp_data)
+  ), # Map of maximal temperatures change
+
   tar_target(models,
              LPI_temp_model(LPI_temp_data)
   ), # Make multiple regression model
 
-  tarchetypes::tar_render(manuscript, "manuscript/manuscript.Rmd"
+  tarchetypes::tar_render(manuscript, "manuscript.Rmd"
   ) # Update manuscript
 
 )
